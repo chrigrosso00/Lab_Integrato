@@ -5,6 +5,8 @@ Repo del corso Laboratorio Integrato (ERP-Fintech)
 ## Database name
 defaultdb
 ## Host
+lab-integrato-nicola03-3bd5.f.aivencloud.com
+## Port
 16921
 ## User
 avnadmin
