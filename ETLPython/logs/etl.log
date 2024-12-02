@@ -1,0 +1,24 @@
+2024-12-02 12:50:20,556 - INFO - Connected to PostgreSQL.
+2024-12-02 12:50:20,896 - INFO - Connected to MySQL.
+2024-12-02 12:50:20,974 - ERROR - Error extracting data: relation "rawforgiatura" does not exist
+LINE 1: SELECT * FROM RawForgiatura WHERE stato_processo = 'PENDING'
+                      ^
+
+2024-12-02 12:55:14,620 - INFO - Connected to PostgreSQL.
+2024-12-02 12:55:14,945 - INFO - Connected to MySQL.
+2024-12-02 12:55:15,017 - ERROR - Error extracting data: column "stato_processo" does not exist
+LINE 1: SELECT * FROM RawForgiatura WHERE stato_processo = 'PENDING'
+                                          ^
+
+2024-12-02 12:55:54,114 - INFO - Connected to PostgreSQL.
+2024-12-02 12:55:54,430 - INFO - Connected to MySQL.
+2024-12-02 12:55:54,501 - INFO - Extracted 5 records from PostgreSQL.
+2024-12-02 12:55:54,501 - ERROR - Data transformation error for record 1: missing key 'event_timestamp'
+2024-12-02 12:55:54,502 - ERROR - Data transformation error for record 2: missing key 'event_timestamp'
+2024-12-02 12:55:54,502 - ERROR - Data transformation error for record 3: missing key 'event_timestamp'
+2024-12-02 12:55:54,502 - ERROR - Data transformation error for record 4: missing key 'event_timestamp'
+2024-12-02 12:55:54,502 - ERROR - Data transformation error for record 5: missing key 'event_timestamp'
+2024-12-02 12:55:54,502 - INFO - Data transformation complete.
+2024-12-02 12:55:54,537 - INFO - Inserted -1 records into MySQL.
+2024-12-02 12:55:54,612 - INFO - Updated processing status in PostgreSQL.
+2024-12-02 12:55:54,613 - INFO - Database connections closed.
