@@ -1,9 +1,8 @@
 
 # **Lab Integrato**
 Repo del corso **Laboratorio Integrato (ERP-Fintech)**  
-***  
-![Logo MySQL](https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api)  
 ***
+![Logo MySQL](https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api)  
 
 ## **Stringa connessione database MySQL (Produzione)**
 
@@ -12,11 +11,8 @@ Repo del corso **Laboratorio Integrato (ERP-Fintech)**
 - **Port:** `16921`  
 - **User:** `avnadmin`  
 - **Password:** `AVNS_frpyP32fGueJJfnhssZ`  
-
 ---
-
 ![Logo PostgreSQL](https://www.lightcrest.com/wp-content/uploads/2019/04/postgresql-logo.png)  
-***
 
 ## **Stringa connessione database PostgreSQL (Staging)**
 
@@ -27,9 +23,7 @@ Repo del corso **Laboratorio Integrato (ERP-Fintech)**
 - **Password:** `AVNS_d8E015YWPMvo61VuSsY`  
 
 ---
-
 ![Logo Scalingo](https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png)  
-***
 
 ## **Link ETL Python in Cloud**
 
