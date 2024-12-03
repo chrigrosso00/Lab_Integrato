@@ -1,6 +1,8 @@
 # Lab_Integrato
 Repo del corso Laboratorio Integrato (ERP-Fintech)
-
+***
+![Logo](https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api)
+***
 # Stringa connessione database MySQL (produzione)
 ## Database name
 defaultdb
@@ -12,7 +14,9 @@ lab-integrato-nicola03-3bd5.f.aivencloud.com
 avnadmin
 ## Password
 AVNS_frpyP32fGueJJfnhssZ
-
+***
+![Logo](https://www.lightcrest.com/wp-content/uploads/2019/04/postgresql-logo.png)
+***
 # Stringa connessione database Postgres (staging)
 ## Database name
 defaultdb
@@ -24,7 +28,9 @@ stagingdb-nicola03-3bd5.b.aivencloud.com
 avnadmin
 ## Password
 AVNS_d8E015YWPMvo61VuSsY
-
+***
+![Logo](https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png)
+***
 # Link etl python in cloude
 L'applicazione è accessibile al seguente indirizzo: https://etlprj.osc-fr1.scalingo.io/
 ## API
