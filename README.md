@@ -1,7 +1,7 @@
 # Lab_Integrato
 Repo del corso Laboratorio Integrato (ERP-Fintech)
 
-# Stringa connessione database MySQL
+# Stringa connessione database MySQL (produzione)
 ## Database name
 defaultdb
 ## Host
@@ -13,7 +13,7 @@ avnadmin
 ## Password
 AVNS_frpyP32fGueJJfnhssZ
 
-# Stringa connessione database Postgres
+# Stringa connessione database Postgres (staging)
 ## Database name
 defaultdb
 ## Host
