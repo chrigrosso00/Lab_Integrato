@@ -31,8 +31,9 @@ L'applicazione è accessibile al seguente indirizzo:
 **[ETL Project](https://etlprj.osc-fr1.scalingo.io/)**  
 
 ### **API**
+
 1. **Run Script:**  
-  (https://etlprj.osc-fr1.scalingo.io/run)  
+   (https://etlprj.osc-fr1.scalingo.io/run)  
    Fa partire lo script Python per modellare tutti i dati dal database PostgreSQL e li salva su MySQL.  
 
 2. **Status:**  
@@ -41,4 +42,14 @@ L'applicazione è accessibile al seguente indirizzo:
 
 3. **Logs:**  
    (https://etlprj.osc-fr1.scalingo.io/logs)  
-   Mostra i log del progetto per monitorare le attività e diagnosticare eventuali problemi.
+   Mostra i log del progetto per monitorare le attività e diagnosticare eventuali problemi.  
+
+   (https://etlprj.osc-fr1.scalingo.io/log-cron)  
+   Mostra i log del progetto per monitorare le attività eseguite periodicamente.  
+
+   (https://etlprj.osc-fr1.scalingo.io/clear-logs)  
+   Pulisce i file di log.  
+
+4. **Dati:**  
+   (https://etlprj.osc-fr1.scalingo.io/data)  
+   Mostra le tabelle Forgiatura e dati_anomali del database MySQL e i dati registrati.
