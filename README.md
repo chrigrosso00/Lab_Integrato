@@ -1,3 +1,5 @@
+![Logo](https://res.cloudinary.com/practicaldev/image/fetch/s--QsmIiz9y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/lnm6ybztq944ikym1s8f.JPG)
+
 # ETL Flask Application
 
 ## Descrizione
@@ -6,8 +8,9 @@ Questo progetto è un'applicazione ETL (Extract, Transform, Load) sviluppata in 
 
 ## Caratteristiche
 
-- **Estrazione**: Recupera dati dalla tabella `RawForgiatura` in PostgreSQL con stato `PENDING`.
+- **Estrazione**: Recupera dati dalla tabella `RawForgiatura` in PostgreSQL.
 - **Trasformazione**: Elabora i dati, gestendo formati di data e assicurando la presenza delle chiavi necessarie.
+- **Controllo**: Controlla i dati estratti e trasformati per controllora eventuali anomalie, in caso venissero trovate i dati verranno salvati nella tabella `dati_anomali` per future analisi.
 - **Caricamento**: Inserisce i dati trasformati nella tabella `Forgiatura` in MySQL.
 - **API Web**: 
   - Avvia il processo ETL tramite endpoint HTTP.
