@@ -25,10 +25,10 @@ public class Ordine {
     @Column(name = "stato")
     private String stato;
 
-    @OneToMany(mappedBy = "comessa")
+    @OneToMany(mappedBy = "ordine")
     private List<Operazione> operazioni;
 
-    @OneToMany(mappedBy = "comessa")
+    @OneToMany(mappedBy = "ordine")
     private List<PezziOrdine> pezziOrdine;
 
 	public Long getId() {
