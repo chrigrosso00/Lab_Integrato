@@ -19,6 +19,16 @@
 - Strumenti di Sviluppo: IntelliJ IDEA, Eclipse, Visual Studio Code, Postman, Git
 - Versionamento del Codice: Git e GitHub (flow di lavoro con branch java)
 
+### Swagger API Documentation
+
+#### Come accedere alla documentazione Swagger
+
+Dopo aver avviato il server: 
+
+```
+http://localhost:1111/swagger/index.html
+```
+
 ***
 
 ## **Documentazione Implementazione JWT e Role-Based Access Control (RBAC) con Spring Boot**
