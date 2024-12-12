@@ -231,14 +231,3 @@ fetch('http://localhost:8080/api/user/profile', {
 .then(data => console.log('Dati ricevuti:', data))
 .catch(error => console.error('Errore:', error));
 ```
-
-***
-<img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo Java" style="width: 60%; height: 200px;">
-
-## **Stringa connessione database MySQL (Produzione)**
-
-- **Database Name:** `defaultdb`  
-- **Host:** `lab-integrato-nicola03-3bd5.f.aivencloud.com`  
-- **Port:** `16921`  
-- **User:** `avnadmin`  
-- **Password:** `AVNS_frpyP32fGueJJfnhssZ`  
