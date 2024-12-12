@@ -12,6 +12,7 @@
 
 ***
 <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo Java" style="width: 60%; height: 200px;">
+
 ## **Stringa connessione database MySQL (Produzione)**
 
 - **Database Name:** `defaultdb`  
