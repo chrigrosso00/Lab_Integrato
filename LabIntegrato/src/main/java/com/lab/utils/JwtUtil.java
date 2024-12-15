@@ -19,11 +19,12 @@ public class JwtUtil {
 	@Value("${jwt.secret.key}")
     private String SECRET_KEY;
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String username, List<String> roles, Long id) {
     	Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
     	return Jwts.builder()
     	    .setSubject(username)
     	    .claim("roles", roles)
+    	    .claim("id", id)
     	    .setIssuedAt(new Date(System.currentTimeMillis()))
     	    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
     	    .signWith(key, SignatureAlgorithm.HS256) 
@@ -50,6 +51,11 @@ public class JwtUtil {
     public List<String> extractRoles(String token) {
         Claims claims = extractClaims(token);
         return (List<String>) claims.get("roles");
+    }
+    
+    public Long extractId(String token) {
+        Claims claims = extractClaims(token);
+        return claims.get("id", Number.class).longValue();
     }
 
     private Claims extractClaims(String token) {
