@@ -178,6 +178,7 @@ http
 - **ROLE_USER**: Ruolo base assegnato a tutti gli utenti.
 - **ROLE_ADMIN**: Può gestire ruoli e utenti.
 - **ROLE_MODERATOR**: Può eseguire azioni intermedie (opzionale).
+- **ROLE_CLIENTE** : Può creare nuovi ordini e vederne gli avanzamenti.
 
 ### **Come assegnare i ruoli**
 
