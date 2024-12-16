@@ -43,7 +43,7 @@ http://localhost:1111/swagger/index.html
 2. **Role-Based Access Control (RBAC)**
    - Assegnazione dei ruoli agli utenti.
    - Protezione degli endpoint in base ai ruoli (es. solo gli ADMIN possono accedere a `/api/addRole`).
-   - Ruoli gestiti: `ROLE_USER`, `ROLE_ADMIN`, `ROLE_MODERATOR`.
+   - Ruoli gestiti: `ROLE_USER`, `ROLE_ADMIN`, `ROLE_MODERATOR`, `ROLE_CLIENTE`.
 
 3. **Sicurezza Spring Security**
    - Protezione degli endpoint con **hasRole()**.
@@ -154,6 +154,7 @@ Authorization: Bearer <token>
   ```java
   .requestMatchers("/admin/**").hasRole("ADMIN")
   .requestMatchers("/user/**").hasRole("USER")
+  .requestMatchers("/user/**").hasRole("CLIENTE")
   ```
 - Autorizzazione automatica per `/api/login` e `/api/register` senza autenticazione.
 - Inclusione del filtro `JwtAuthenticationFilter`.
