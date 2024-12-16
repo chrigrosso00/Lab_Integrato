@@ -9,10 +9,22 @@ public class Pezzo {
 	
     @Id
     @Column(name = "codice_pezzo")
-    private String codicePezzo;
+    private int codicePezzo;
 
     @Column(name = "tipo_acciaio")
     private String tipoAcciaio;
+    
+    @Column(name = "descrizione")
+    private String Descrizione;
+    
+    @Column(name = "prezzo")
+    private Double prezzo;
+    
+    @Column(name = "immagine")
+    private String immagineUrl;
+    
+    @Column(name = "nome")
+    private String nome;
 
     @Column(name = "peso_min")
     private Double pesoMin;
@@ -35,11 +47,43 @@ public class Pezzo {
     @OneToMany(mappedBy = "pezzo")
     private List<Magazzino> magazzinoEntries;
 
-	public String getCodicePezzo() {
+	public String getDescrizione() {
+		return Descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		Descrizione = descrizione;
+	}
+
+	public String getImmagineUrl() {
+		return immagineUrl;
+	}
+
+	public void setImmagineUrl(String immagineUrl) {
+		this.immagineUrl = immagineUrl;
+	}
+
+	public Double getPrezzo() {
+		return prezzo;
+	}
+
+	public void setPrezzo(Double prezzo) {
+		this.prezzo = prezzo;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public int getCodicePezzo() {
 		return codicePezzo;
 	}
 
-	public void setCodicePezzo(String codicePezzo) {
+	public void setCodicePezzo(int codicePezzo) {
 		this.codicePezzo = codicePezzo;
 	}
 

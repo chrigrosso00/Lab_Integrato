@@ -34,7 +34,7 @@ public class Magazzino {
     @JoinColumn(name = "tipo_acciaio")
     private Acciaio acciaio;
 
-    @Column(name = "quantità_disponibile") // attenzione all'accento, meglio quantita_disponibile
+    @Column(name = "quantita_disponibile")
     private Integer quantitaDisponibile;
 
     @Column(name = "data_ultimo_aggiornamento")

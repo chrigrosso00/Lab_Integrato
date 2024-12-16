@@ -30,7 +30,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login", "/api/register", "/api/**", "/registrazione", "/registrazione").permitAll()
+                .requestMatchers("/api/login", "/api/register", "/api/**", "/registrazione", "/login", "/public/**").permitAll()
+                .requestMatchers("/static/**", "/js/**", "/css/**", "/images/**").permitAll()
                 .requestMatchers("/swagger-ui/index.html**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
