@@ -4,13 +4,13 @@
 
 ## Descrizione
 
-Questo progetto è un'applicazione ETL (Extract, Transform, Load) sviluppata in Python utilizzando Flask per esporre API web. L'applicazione estrae dati da un database PostgreSQL, li trasforma secondo specifiche logiche di business e li carica in un database MySQL. Inoltre, fornisce endpoint per avviare il processo ETL, monitorarne lo stato e visualizzare i log.
+Questo progetto è un'applicazione ETL (Extract, Transform, Load) sviluppata in Python utilizzando Flask per esporre API web. L'applicazione riceve i dati di produzione grezzi dal flusso power automate tramite una chiamata API, li trasforma secondo specifiche logiche di business e li carica in un database MySQL. Inoltre, fornisce endpoint per avviare il processo ETL, monitorarne lo stato e visualizzare i log.
 
 ## Caratteristiche
 
-- **Estrazione**: Recupera dati dalla tabella `RawForgiatura` in PostgreSQL.
+- **Estrazione**: Riceve i dati in formato Json dal flusso in power automate tramite una chiamata HTTP.
 - **Trasformazione**: Elabora i dati, gestendo formati di data e assicurando la presenza delle chiavi necessarie.
-- **Controllo**: Controlla i dati estratti e trasformati per controllora eventuali anomalie, in caso venissero trovate i dati verranno salvati nella tabella `dati_anomali` per future analisi.
+- **Controllo**: Controlla i dati estratti e trasformati per controllora eventuali anomalie.
 - **Caricamento**: Inserisce i dati trasformati nella tabella `Forgiatura` in MySQL.
 - **API Web**: 
   - Avvia il processo ETL tramite endpoint HTTP.
@@ -18,12 +18,12 @@ Questo progetto è un'applicazione ETL (Extract, Transform, Load) sviluppata in 
   - Visualizza i log delle operazioni ETL.
 - **Logging**: Registra tutte le operazioni e gli errori in un file di log.
 - **Configurazione Sicura**: Utilizza variabili d'ambiente per gestire le configurazioni sensibili.
+- **API_KEY**: Chiave per le API per proteggere gli endpoint più sensibili.
 
 ## Tecnologie Utilizzate
 
 - **Python 3.x**
 - **Flask**: Framework web per Python.
-- **PostgreSQL**: Database di origine.
 - **MySQL**: Database di destinazione.
 - **psycopg2**: Libreria per connettersi a PostgreSQL.
 - **mysql-connector-python**: Libreria per connettersi a MySQL.
