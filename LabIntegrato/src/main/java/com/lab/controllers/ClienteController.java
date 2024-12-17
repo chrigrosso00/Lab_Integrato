@@ -20,8 +20,6 @@ import com.lab.repos.ClienteDAO;
 import com.lab.services.OrdineService;
 import com.lab.utils.JwtUtil;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/cliente")
 public class ClienteController {
