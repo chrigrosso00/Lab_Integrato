@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.lab.entities.Pezzo;
 
 @Repository
-public interface PezzoDAO extends JpaRepository<Pezzo, String> {
+public interface PezzoDAO extends JpaRepository<Pezzo, Integer> {
 
 }

@@ -8,49 +8,59 @@ import org.springframework.stereotype.Service;
 
 import com.lab.DTO.CreazioneOrdineDTO;
 import com.lab.entities.Cliente;
-import com.lab.entities.Operazione;
 import com.lab.entities.Ordine;
 import com.lab.entities.PezziOrdine;
+import com.lab.entities.PezziOrdineId;
+import com.lab.entities.Pezzo;
 import com.lab.repos.OrdineDAO;
+import com.lab.repos.PezzoDAO;
 
-import jakarta.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrdineServiceImpl implements OrdineService{
 	
 	@Autowired
 	private OrdineDAO ordineDAO;
-
+	
+	@Autowired
+    private PezzoDAO pezzoDAO;
+	
+	public OrdineServiceImpl(OrdineDAO ordineDAO, PezzoDAO pezzoDAO) {
+        this.ordineDAO = ordineDAO;
+        this.pezzoDAO = pezzoDAO;
+    }
+	
 	@Override
-	public Ordine creaOrdine(@Valid CreazioneOrdineDTO ordineDTO, Cliente cliente) {
-	    // Crea l'oggetto ordine e imposta i valori di base
-	    Ordine ordine = new Ordine();
-	    ordine.setCliente(cliente);
-	    ordine.setDataInizio(LocalDate.now()); // Imposta la data di inizio come oggi
+	@Transactional(rollbackFor = RuntimeException.class) 
+    public void creaOrdine(List<CreazioneOrdineDTO> prodottiCarrello, Cliente cliente) {
+        // 1. Crea l'oggetto Ordine
+        Ordine ordine = new Ordine();
+        ordine.setCliente(cliente);
+        ordine.setDataInizio(LocalDate.now());
+        ordine.setStato("IN ATTESA");
 
-	    // Associa i PezziOrdine all'Ordine
-	    List<PezziOrdine> pezziOrdine = ordineDTO.getPezziOrdine();
-	    if (pezziOrdine != null && !pezziOrdine.isEmpty()) {
-	        for (PezziOrdine pezzo : pezziOrdine) {
-	            pezzo.setOrdine(ordine); // Associa l'ordine al pezzo
-	            ordine.addPezzoOrdine(pezzo); // Metodo di supporto per la relazione
-	        }
-	    }
+        // 2. Salva l'ordine e ottiene l'ID generato
+        ordineDAO.save(ordine);
 
-	    // Associa le Operazioni all'Ordine
-	    List<Operazione> operazioni = ordineDTO.getOperazioni();
-	    if (operazioni != null && !operazioni.isEmpty()) {
-	        for (Operazione operazione : operazioni) {
-	            operazione.setOrdine(ordine); // Associa l'operazione all'ordine
-	            ordine.addOperazione(operazione); // Metodo di supporto per la relazione
-	        }
-	    }
+        // 3. Per ogni prodotto nel carrello, crea l'oggetto PezziOrdine
+        for (CreazioneOrdineDTO prodotto : prodottiCarrello) {
+            Pezzo pezzo = pezzoDAO.findById(prodotto.getCodicePezzo())
+                    .orElseThrow(() -> new RuntimeException("Pezzo con codice " + prodotto.getCodicePezzo() + " non trovato"));
 
-	    // Salva l'ordine nel database
-	    ordineDAO.save(ordine);
+            PezziOrdineId pezziOrdineId = new PezziOrdineId(ordine.getId(), prodotto.getCodicePezzo());
+            
+            PezziOrdine pezziOrdine = new PezziOrdine();
+            pezziOrdine.setId(pezziOrdineId);
+            pezziOrdine.setOrdine(ordine);
+            pezziOrdine.setPezzo(pezzo);
+            pezziOrdine.setQuantita(prodotto.getQuantita());
 
-	    return ordine;
-	}
+            ordine.getPezziOrdine().add(pezziOrdine);
+        }
 
+        // 4. Salva l'ordine e i pezzi associati
+        ordineDAO.save(ordine);
+    }
 
 }

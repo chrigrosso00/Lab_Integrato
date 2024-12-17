@@ -9,7 +9,11 @@ public class Forgiatura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_forgiatura")
     private Long id;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "id_operazione", referencedColumnName = "id_operazione") 
+    private Operazione operazione;
+    
     @Column(name = "peso_effettivo")
     private Double pesoEffettivo;
 
@@ -19,6 +23,14 @@ public class Forgiatura {
     @ManyToOne
     @JoinColumn(name = "id_anomalia")
     private Anomalia anomalia;
+
+	public Operazione getOperazione() {
+		return operazione;
+	}
+
+	public void setOperazione(Operazione operazione) {
+		this.operazione = operazione;
+	}
 
 	public Long getId() {
 		return id;

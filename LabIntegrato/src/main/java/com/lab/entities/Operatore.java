@@ -12,12 +12,31 @@ public class Operatore {
 
     @Column(name = "nome")
     private String nome;
+    
+    @Column(name = "cognome")
+    private String cognome;
 
-    @Column(name = "costo_orario")
-    private Double costoOrario;
+    @Column(name = "id_costo")
+    private int idCosto;
 
     @OneToMany(mappedBy = "operatore")
     private List<Operazione> operazioni;
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public int getIdCosto() {
+		return idCosto;
+	}
+
+	public void setIdCosto(int idCosto) {
+		this.idCosto = idCosto;
+	}
 
 	public String getCodiceOperatore() {
 		return codiceOperatore;
@@ -33,14 +52,6 @@ public class Operatore {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Double getCostoOrario() {
-		return costoOrario;
-	}
-
-	public void setCostoOrario(Double costoOrario) {
-		this.costoOrario = costoOrario;
 	}
 
 	public List<Operazione> getOperazioni() {

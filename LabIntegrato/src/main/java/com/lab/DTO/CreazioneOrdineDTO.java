@@ -1,30 +1,31 @@
 package com.lab.DTO;
 
-import java.util.List;
-
-import com.lab.entities.Operazione;
-import com.lab.entities.PezziOrdine;
-
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class CreazioneOrdineDTO {
-	@NotEmpty(message = "La lista delle operazioni non può essere vuota")
-    private List<Operazione> operazioni;
+	
+	@NotNull(message = "Il codice del pezzo non può essere nullo")
+	private int codicePezzo;
+	
+	@Min(value = 1, message = "La quantità deve essere almeno 1")
+    private int quantita;
 
-    @NotEmpty(message = "La lista dei pezzi ordine non può essere vuota")
-    private List<PezziOrdine> pezziOrdine;
-    
-	public List<Operazione> getOperazioni() {
-		return operazioni;
-	}
-	public void setOperazioni(List<Operazione> operazioni) {
-		this.operazioni = operazioni;
-	}
-	public List<PezziOrdine> getPezziOrdine() {
-		return pezziOrdine;
-	}
-	public void setPezziOrdine(List<PezziOrdine> pezziOrdine) {
-		this.pezziOrdine = pezziOrdine;
-	}
+    // Getters e Setters
+    public int getCodicePezzo() {
+        return codicePezzo;
+    }
+
+    public void setCodicePezzo(int codicePezzo) {
+        this.codicePezzo = codicePezzo;
+    }
+
+    public int getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(int quantita) {
+        this.quantita = quantita;
+    }
 
 }

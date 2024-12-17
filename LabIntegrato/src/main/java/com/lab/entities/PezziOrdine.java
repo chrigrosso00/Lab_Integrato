@@ -1,37 +1,18 @@
 package com.lab.entities;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 
-@Embeddable
-class PezziOrdineId implements Serializable {
-    @Column(name = "id_ordine")
-    private Long idOrdine;
-
-    @Column(name = "id_pezzo")
-    private String codicePezzo;
-
-	public Long getIdOrdine() {
-		return idOrdine;
-	}
-
-	public void setIdOrdine(Long idOrdine) {
-		this.idOrdine = idOrdine;
-	}
-
-	public String getCodicePezzo() {
-		return codicePezzo;
-	}
-
-	public void setCodicePezzo(String codicePezzo) {
-		this.codicePezzo = codicePezzo;
-	}
-
-}
 
 @Entity
 @Table(name = "Pezzi_ordine")
 public class PezziOrdine {
+	
     @EmbeddedId
     private PezziOrdineId id;
 
@@ -81,4 +62,3 @@ public class PezziOrdine {
 	}
 
 }
-

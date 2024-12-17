@@ -1,5 +1,8 @@
 package com.lab.controllers;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lab.DTO.CreazioneOrdineDTO;
 import com.lab.entities.Cliente;
-import com.lab.entities.Ordine;
 import com.lab.repos.ClienteDAO;
 import com.lab.services.OrdineService;
 import com.lab.utils.JwtUtil;
@@ -40,9 +42,8 @@ public class ClienteController {
 	    return ResponseEntity.ok("ID utente estratto: " + id);
 	}
 
-	
 	@PostMapping("/crea/ordine")
-	public ResponseEntity<String> creaOrdine(@RequestBody @Valid CreazioneOrdineDTO ordineDTO, 
+	public ResponseEntity<Map<String, Object>> creaOrdine(@RequestBody List<CreazioneOrdineDTO> ordineDTO, 
 	                                         @RequestHeader("Authorization") String authorizationHeader) {
 	    try {
 	        // Estrai il token JWT dall'header
@@ -54,18 +55,24 @@ public class ClienteController {
 	        // Recupera il cliente dal database
 	        Optional<Cliente> clienteOptional = clienteDAO.findById(clienteId);
 	        if (clienteOptional.isEmpty()) {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cliente non trovato con id: " + clienteId);
+	        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Utente non trovato"));
 	        }
 
 	        Cliente cliente = clienteOptional.get();
 	        
 	        // Crea il nuovo ordine
-	        Ordine ordine = ordineService.creaOrdine(ordineDTO, cliente);
+	        ordineService.creaOrdine(ordineDTO, cliente);
 	        
-	        return ResponseEntity.ok("Creazione Ordine avvenuta con successo! ID Ordine: " + ordine.getId());
+	        Map<String, Object> response = new HashMap<>();
+	        response.put("message", "Creazione dell'ordine completata con successo!");
+	        response.put("ordineId", 1);
+
+	        return ResponseEntity.ok(response);
 	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Errore durante la creazione dell'ordine: " + e.getMessage());
+	        Map<String, Object> errorResponse = new HashMap<>();
+	        errorResponse.put("error", "Errore nella creazione dell'ordine");
+	        errorResponse.put("message", e.getMessage());
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
 	    }
 	}
 
