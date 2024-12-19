@@ -15,7 +15,7 @@
 
 - Back-end: Java 17, Spring Boot, Spring Security, Spring Data JPA
 - Database: MySQL
-- Front-end: HTML5, CSS3, JavaScript
+- Front-end: HTML5, CSS3, JavaScript, Bootstrap 5, AdminLTE 3
 - Strumenti di Sviluppo: IntelliJ IDEA, Eclipse, Visual Studio Code, Postman, Git
 - Versionamento del Codice: Git e GitHub (flow di lavoro con branch java)
 
