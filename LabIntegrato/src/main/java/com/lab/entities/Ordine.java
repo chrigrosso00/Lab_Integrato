@@ -29,6 +29,9 @@ public class Ordine {
 
     @Column(name = "data_inizio")
     private LocalDate dataInizio;
+    
+    @Column(name = "totale_pezzi")
+    private Integer totalePezzi;
 
     @Column(name = "data_fine")
     private LocalDate dataFine;
@@ -41,6 +44,14 @@ public class Ordine {
 
     @OneToMany(mappedBy = "ordine", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PezziOrdine> pezziOrdine = new ArrayList<>();
+
+	public Integer getTotalePezzi() {
+		return totalePezzi;
+	}
+
+	public void setTotalePezzi(Integer totalePezzi) {
+		this.totalePezzi = totalePezzi;
+	}
 
 	public Long getId() {
 		return id;

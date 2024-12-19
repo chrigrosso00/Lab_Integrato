@@ -3,6 +3,8 @@ package com.lab.entities;
 import jakarta.persistence.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Pezzi")
 public class Pezzo {
@@ -39,12 +41,15 @@ public class Pezzo {
     private Double temperaturaMax;
 
     @OneToMany(mappedBy = "pezzo")
+    @JsonIgnore
     private List<PezziOrdine> pezziCommesse;
 
     @OneToMany(mappedBy = "pezzo")
+    @JsonIgnore
     private List<Operazione> operazioni;
 
     @OneToMany(mappedBy = "pezzo")
+    @JsonIgnore
     private List<Magazzino> magazzinoEntries;
 
 	public String getDescrizione() {

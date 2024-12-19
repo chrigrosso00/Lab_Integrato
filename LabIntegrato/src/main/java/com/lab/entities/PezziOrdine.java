@@ -1,5 +1,7 @@
 package com.lab.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -19,6 +21,7 @@ public class PezziOrdine {
     @ManyToOne
     @MapsId("idOrdine")
     @JoinColumn(name = "id_ordine")
+    @JsonIgnore
     private Ordine ordine;
 
     @ManyToOne
@@ -26,8 +29,11 @@ public class PezziOrdine {
     @JoinColumn(name = "id_pezzo")
     private Pezzo pezzo;
 
-    @Column(name = "quantita")
-    private Integer quantita;
+    @Column(name = "quantita_totale")
+    private int quantitaTotale;
+
+    @Column(name = "quantita_rimanente")
+    private int quantita;
 
 	public PezziOrdineId getId() {
 		return id;
@@ -53,12 +59,20 @@ public class PezziOrdine {
 		this.pezzo = pezzo;
 	}
 
-	public Integer getQuantita() {
-		return quantita;
+	public int getQuantitaTotale() {
+		return quantitaTotale;
 	}
 
-	public void setQuantita(Integer quantita) {
+	public void setQuantitaTotale(int quantitaTotale) {
+		this.quantitaTotale = quantitaTotale;
+	}
+
+	public void setQuantita(int quantita) {
 		this.quantita = quantita;
+	}
+
+	public int getQuantita() {
+		return quantita;
 	}
 
 }

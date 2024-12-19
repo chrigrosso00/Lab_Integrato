@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lab.DTO.CreazioneOrdineDTO;
+import com.lab.customException.NotFoundException;
 import com.lab.entities.Cliente;
 import com.lab.entities.Ordine;
 import com.lab.entities.PezziOrdine;
@@ -46,6 +47,8 @@ public class OrdineServiceImpl implements OrdineService{
         // 2. Salva l'ordine e ottiene l'ID generato
         ordineDAO.save(ordine);
         
+        int totaleProdotti = 0;
+        
         // 3. Per ogni prodotto nel carrello, controlla la disponibilità e calcola la quantità da produrre
         for (CreazioneOrdineDTO prodotto : prodottiCarrello) {
             // 3.1. Usa il MagazzinoService per controllare la disponibilità
@@ -56,6 +59,8 @@ public class OrdineServiceImpl implements OrdineService{
             
             int quantitaDaMagazzino = disponibilita.get("quantitaDaMagazzino");
             int quantitaDaProdurre = disponibilita.get("quantitaDaProdurre");
+            
+            totaleProdotti += quantitaDaProdurre + quantitaDaMagazzino;
 
             // 3.2. Aggiorna la quantità disponibile nel magazzino
             if (quantitaDaMagazzino > 0) {
@@ -63,22 +68,86 @@ public class OrdineServiceImpl implements OrdineService{
             }
 
             // 3.3. Se la quantità da produrre è maggiore di 0, salva nella tabella PezziOrdine
-            if (quantitaDaProdurre > 0) {
-                PezziOrdineId pezziOrdineId = new PezziOrdineId(ordine.getId(), prodotto.getCodicePezzo());
+            PezziOrdineId pezziOrdineId = new PezziOrdineId(ordine.getId(), prodotto.getCodicePezzo());
 
-                PezziOrdine pezziOrdine = new PezziOrdine();
-                pezziOrdine.setId(pezziOrdineId);
-                pezziOrdine.setOrdine(ordine);
-                pezziOrdine.setPezzo(pezzo);
-                pezziOrdine.setQuantita(quantitaDaProdurre); // Salva solo la quantità effettivamente da produrre
+            PezziOrdine pezziOrdine = new PezziOrdine();
+            pezziOrdine.setId(pezziOrdineId);
+            pezziOrdine.setOrdine(ordine);
+            pezziOrdine.setPezzo(pezzo);
+            pezziOrdine.setQuantita(quantitaDaProdurre);
+            pezziOrdine.setQuantitaTotale(quantitaDaProdurre + quantitaDaMagazzino);// Salva solo la quantità effettivamente da produrre
 
-                ordine.getPezziOrdine().add(pezziOrdine);
-            } else {
-            }
+            ordine.getPezziOrdine().add(pezziOrdine);
         }
+        
+        ordine.setTotalePezzi(totaleProdotti);
 
         // 4. Salva l'ordine e i pezzi associati
         ordineDAO.save(ordine);
     }
+	
+	@Override
+    public List<Ordine> getOrdiniByCliente(Integer idCliente) {
+        return ordineDAO.findByClienteId(idCliente);
+    }
+
+	@Override
+	public void setStatoOrdineAnnullato(Long idOrdine) {
+	    // Controllo che l'ID dell'ordine sia valido
+	    if (idOrdine == null || idOrdine <= 0) {
+	        throw new IllegalArgumentException("ID Ordine non valido.");
+	    }
+
+	    // Controllo se l'ordine esiste
+	    Ordine ordine = ordineDAO.findById(idOrdine)
+				.orElseThrow(() -> new NotFoundException("Ordine con id " + idOrdine + " non trovato"));
+
+	    // Cambia lo stato dell'ordine
+	    ordine.setStato("ANNULLATO");
+
+	    // Salva l'ordine aggiornato nel database
+	    ordineDAO.save(ordine);
+	}
+	
+	@Override
+	public boolean verificaProprietarioOrdine(Long ordineId, Integer idCliente) {
+	    Ordine ordine = ordineDAO.findById(ordineId)
+	        .orElseThrow(() -> new NotFoundException("Ordine non trovato."));
+	    return ordine.getCliente().getId().equals(idCliente.longValue()); // Verifica che l'ordine appartenga al cliente loggato
+	}
+
+	@Override
+	public int getNumeroOrdiniCompletati(List<Ordine> ordini) {
+		int count = 0;
+		for (Ordine ordine : ordini) {
+			if (ordine.getStato().equals("COMPLETATO")){ // CORRETTO) {
+				count ++;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public int getNumeroOrdiniInAttesa(List<Ordine> ordini) {
+		int count = 0;
+		for (Ordine ordine : ordini) {
+			if (ordine.getStato().equals("IN ATTESA")) {
+				count ++;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public int getNumeroOrdiniAnnullati(List<Ordine> ordini) {
+		int count = 0;
+		for (Ordine ordine : ordini) {
+			if (ordine.getStato().equals("ANNULLATO")) {
+				count ++;
+			}
+		}
+		return count;
+	}
+
 
 }

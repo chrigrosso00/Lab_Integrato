@@ -18,10 +18,24 @@ public class WebController {
         return "login";
     }
     
-    @GetMapping("/cliente/ordine")
+    @GetMapping("/cliente/prova")
+    public String mostraProva() {
+        return "prova";
+    }
+    
+    @GetMapping("/cliente/dashboard")
+    public String mostraDashboardCliente() {
+        return "dashboardCliente";
+    }
+    
+    @GetMapping("/cliente/crea/ordine")
     public String mostraFormOrdine() {
         return "creaOrdine";
     }
+    
+    @GetMapping("/cliente/storico/ordine")
+    public String mostraStoricoOrdine() {
+        return "storicoOrdiniCliente";
+    }
 	
 }
-

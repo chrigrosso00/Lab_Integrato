@@ -138,7 +138,7 @@
                 localStorage.setItem('jwtToken', data.token);
                 console.log('Token JWT:', localStorage.getItem('jwtToken'));
                 displayMessage('Login effettuato con successo!', 'success');
-                redirectWithToken('/public/cliente/ordine', data.token);
+                redirectWithToken('/public/cliente/dashboard', data.token);
             } else {
                 displayMessage(data.error || 'Errore durante il login', 'error');
             }

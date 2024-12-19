@@ -53,6 +53,11 @@ public class JwtUtil {
         return (List<String>) claims.get("roles");
     }
     
+    public Integer extractIdUtente(String token) {
+        Claims claims = extractClaims(token);
+        return (Integer) claims.get("id");
+    }
+    
     public Long extractId(String token) {
         Claims claims = extractClaims(token);
         return claims.get("id", Number.class).longValue();
