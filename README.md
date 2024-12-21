@@ -51,24 +51,6 @@ Il progetto espone diversi endpoint **REST** per avviare e monitorare i processi
 
 ---
 
-## Struttura del progetto
-
-```
-my_etl_project/
-├── app.py                 # File principale con Flask, endpoint e logica ETL
-├── timestamp_utils.py     # Funzioni di parsing e validazione data/ora
-├── requirements.txt       # Dipendenze del progetto
-├── config/
-│   └── .env               # Variabili d'ambiente (non committare in produzione)
-└── logs/
-    ├── etl.log
-    └── periodic.log
-```
-
-> Nota: È possibile avere tutto in un unico file (`app.py`) per semplicità, ma una struttura modulare è consigliata per progetti più complessi.
-
----
-
 ## Endpoint Principali
 
 ### **`POST /run-etl`**
@@ -102,27 +84,6 @@ my_etl_project/
 
 ---
 
-## Installazione ed Esecuzione
-
-### 1. Clona o scarica il progetto
-
-### 2. Installa le dipendenze
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Configura le variabili d'ambiente
-Imposta le variabili d'ambiente necessarie, ad esempio in `config/.env`:
-
-```
-MYSQL_HOST=<host>
-MYSQL_PORT=<porta>
-MYSQL_DATABASE=<nome_database>
-MYSQL_USER=<utente>
-MYSQL_PASSWORD=<password>
-API_KEY=<chiave_api>
-```
-
 ## Logging
 
 L'applicazione registra tutte le attività in due file di log:
@@ -138,45 +99,3 @@ L'endpoint `/clear-logs` consente di cancellare i file di log e creare un backup
 
 - Gli endpoint sensibili sono protetti da API Key (header `X-API-KEY`).
 - Le credenziali e i parametri sensibili sono caricati dalle variabili d'ambiente.
-
----
-
-## Esempio di chiamata ETL
-
-### Endpoint
-`POST /run-etl`
-
-### Headers
-```http
-Content-Type: application/json
-X-API-KEY: <la_tua_chiave_api>
-```
-
-### Body
-```json
-[
-  {
-    "id_ordine": 123,
-    "codice_pezzo": "PZ001",
-    "codice_macchinario": "MAC01",
-    "codice_operatore": null,
-    "timestamp_inizio": "2024-12-20 10:00:00",
-    "timestamp_fine": "2024-12-20 11:00:00",
-    "tipo_operazione": "forgiatura",
-    "peso_effettivo": 450.0,
-    "temperatura_effettiva": 120.5
-  },
-  {
-    "id_ordine": 123,
-    "codice_pezzo": "PZ002",
-    "codice_macchinario": "MAC02",
-    "codice_operatore": "OP789",
-    "timestamp_inizio": "2024-12-20 12:00:00",
-    "timestamp_fine": "2024-12-20 13:00:00",
-    "tipo_operazione": "cnc",
-    "numero_pezzi_ora": 60
-  }
-]
-```
-
----
