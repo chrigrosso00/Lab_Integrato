@@ -24,6 +24,10 @@ Un'analisi completa e strutturata per comprendere i comportamenti dei clienti e 
 - **Margine di profitto per cliente**: individuare i clienti più redditizi.
 - **Margine di profitto per prodotto**: misurare quali prodotti generano il margine più alto.
 
+### 5. **Distribuzione dei Pezzi Ordinati**
+- **Analisi per cliente**: identificare i clienti che ordinano i volumi maggiori e le tipologie di pezzi più richiesti.
+- **Analisi per magazzino**: determinare quali pezzi vengono prodotti principalmente per incrementare la disponibilità.
+
 ---
 
 ## **Analisi Sulla Produzione**
@@ -52,7 +56,11 @@ Un'analisi completa e strutturata per comprendere i comportamenti dei clienti e 
 - **Efficienza delle materie prime**: valutare l'uso delle risorse per prodotto.
 - **Consumo energetico**: monitorare l'energia utilizzata per pezzo prodotto.
 
-### 5. **Previsioni e Ottimizzazioni**
+### 5. **Giacenza Media nel Magazzino**
+- **Analisi per pezzo**: calcolare la giacenza media per ogni singolo pezzo.
+- **Analisi generale**: determinare la giacenza media totale nel magazzino.
+
+### 6. **Previsioni e Ottimizzazioni**
 - **Previsione della produzione futura**: utilizzare modelli di machine learning per prevedere la domanda.
 - **Simulazioni di configurazioni produttive**: ottimizzare i layout e i processi produttivi.
 
