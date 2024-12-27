@@ -116,6 +116,14 @@ L'obiettivo principale è:
 | -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
 | **Produzione** | `defaultdb`  | `lab-integrato-nicola03-3bd5.f.aivencloud.com` | `16921` | `avnadmin` | `AVNS_frpyP32fGueJJfnhssZ` |
 
+## **Struttura Database**
+<details>
+  <summary>Mostra diagramma DML</summary>
+    <div align="center">
+      <img src="DML.drawio.png" alt="Logo MySQL">
+    </div>
+</details>
+
 ---
 
 <div align="center">
@@ -127,6 +135,14 @@ L'obiettivo principale è:
 | Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
 | -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
 | **Staging**    | `defaultdb`  | `stagingdb-nicola03-3bd5.b.aivencloud.com`    | `16921` | `avnadmin` | `AVNS_d8E015YWPMvo61VuSsY` |
+
+## **Struttura Database**
+<details>
+  <summary>Mostra diagramma DML</summary>
+    <div align="center">
+      <img src="Raw_DML.drawio.png" alt="Logo MySQL">
+    </div>
+</details>
 
 ---
 <div align="center">
