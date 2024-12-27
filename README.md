@@ -89,7 +89,7 @@ L'obiettivo principale è:
 
 ***
 
-## Connessioni ai Database
+# Connessioni ai Database
 
 ***
 <div align="center">
