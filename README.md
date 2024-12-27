@@ -1,16 +1,33 @@
-# **Lab Integrato**
-Repo del corso **Laboratorio Integrato (ERP-Fintech)**  
-***
+<div align="center">
+  <!-- Sostituisci questo link con il tuo banner o un'immagine rappresentativa del progetto -->
+  <img src="https://via.placeholder.com/800x200/0b3954/ffffff?text=Lab+Integrato" alt="Banner del Progetto" width="800px">
+</div>
+
+<!-- Badges: puoi personalizzarli con shields.io in base al tuo progetto e linguaggio -->
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-11-orange" alt="Java 11">
+  <img src="https://img.shields.io/badge/Python-3.8-yellow.svg" alt="Python 3.1">
+  <img src="https://img.shields.io/badge/MySQL-8.0-blue.svg" alt="MySQL 8.0">
+  <img src="https://img.shields.io/badge/PostgreSQL-13-blue.svg" alt="PostgreSQL 13">
+</p>
+
+<h1 align="center">Lab Integrato</h1>
+
+<div align="center">
+  <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi, ML e BI.</i>
+</div>
+
+<br/>
 
 ## Indice
-1. [Introduzione](#introduzione)
-2. [Struttura del Sistema](#legenda)
-3. [Flusso Complessivo](#flusso-complessivo)
-4. [Vantaggi del Sistema](#vantaggi-del-sistema)
-5. [Connessioni ai Database](#connessioni-ai-database)
-6. [ETL Python in Cloud](#etl-python-in-cloud)
+1. [🔰 Introduzione](#introduzione)  
+2. [🔨 Struttura del Sistema](#struttura-del-sistema)  
+3. [⚙️ Flusso Complessivo](#flusso-complessivo)  
+4. [📈 Vantaggi del Sistema](#vantaggi-del-sistema)  
+5. [💾 Connessioni ai Database](#connessioni-ai-database)  
+6. [🐍 ETL Python in Cloud](#etl-python-in-cloud)
 
-## Introduzione
+## 🔰 Introduzione
 Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.  
 L'obiettivo principale è:
 - **Monitorare** i dati in tempo reale.
@@ -21,7 +38,7 @@ L'obiettivo principale è:
   <img src="workflow.drawio.png" alt="WorkFlow">
 </div>
 
-### **Legenda**
+## 🔨 **Struttura del Sistema**
 - **Macchine (FORGIA e CNC):** Generano dati di produzione (es. temperature, anomalie, pezzi prodotti).
 - **Database:** Funziona come punto centrale di archiviazione dei dati.
 - **Power Automate:** Automatizza i flussi di dati e li trasferisce al sistema ETL.
@@ -69,7 +86,7 @@ L'obiettivo principale è:
 
 ---
 
-## Flusso Complessivo
+## ⚙️ Flusso Complessivo
 
 1. I dati generati dalle macchine (**FORGIA** e **CNC**) vengono raccolti automaticamente da **Power Automate**.
 2. Il modulo **ETL** processa e carica i dati nei database.
@@ -80,7 +97,7 @@ L'obiettivo principale è:
 
 ---
 
-## Vantaggi del Sistema
+## 📈 Vantaggi del Sistema
 
 - **Automazione**: Riduce l'intervento manuale nei flussi di dati.
 - **Monitoraggio in tempo reale**: Identifica anomalie e inefficienze rapidamente.
@@ -89,20 +106,18 @@ L'obiettivo principale è:
 
 ***
 
-# Connessioni ai Database
+# 💾 **Connessioni ai Database**
 
-***
 <div align="center">
   <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
 </div>
 
 ## **Stringa connessione database MySQL (Produzione)**
 
-- **Database Name:** `defaultdb`  
-- **Host:** `lab-integrato-nicola03-3bd5.f.aivencloud.com`  
-- **Port:** `16921`  
-- **User:** `avnadmin`  
-- **Password:** `AVNS_frpyP32fGueJJfnhssZ`  
+| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
+| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
+| **Produzione** | `defaultdb`  | `lab-integrato-nicola03-3bd5.f.aivencloud.com` | `16921` | `avnadmin` | `AVNS_frpyP32fGueJJfnhssZ` |
+
 ---
 
 <div align="center">
@@ -111,18 +126,16 @@ L'obiettivo principale è:
 
 ## **Stringa connessione database PostgreSQL (Staging)**
 
-- **Database Name:** `defaultdb`  
-- **Host:** `stagingdb-nicola03-3bd5.b.aivencloud.com`  
-- **Port:** `16921`  
-- **User:** `avnadmin`  
-- **Password:** `AVNS_d8E015YWPMvo61VuSsY`  
+| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
+| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
+| **Staging**    | `defaultdb`  | `stagingdb-nicola03-3bd5.b.aivencloud.com`    | `16921` | `avnadmin` | `AVNS_d8E015YWPMvo61VuSsY` |
 
 ---
 <div align="center">
   <img src="https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png" alt="Logo Scalingo">
 </div>
 
-## **ETL Python in Cloud**
+# 🐍 **ETL Python in Cloud**
 
 L'applicazione è accessibile al seguente indirizzo:  
 **[ETL Project](https://etlprj.osc-fr1.scalingo.io/)**  
