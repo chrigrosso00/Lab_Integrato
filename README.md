@@ -112,7 +112,7 @@ L'obiettivo principale è:
 
 <br>
 
-**I database (MySQL e PostgreSQL) utilizzati in questo progetto sono interamente ospitati in cloud su Aiven. Grazie a questa soluzione, è possibile beneficiare di un’infrastruttura scalabile, sicura e completamente gestita, semplificando la manutenzione e il monitoraggio dei servizi.
+⚠️ **I database (MySQL e PostgreSQL) utilizzati in questo progetto sono interamente ospitati in cloud su Aiven. Grazie a questa soluzione, è possibile beneficiare di un’infrastruttura scalabile, sicura e completamente gestita, semplificando la manutenzione e il monitoraggio dei servizi.
 La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito di Aiven non si possono attivare più servizi che utilizzino lo stesso DBMS.**
 
 ***
