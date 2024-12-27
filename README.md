@@ -107,6 +107,17 @@ L'obiettivo principale è:
 # 💾 **Connessioni ai Database**
 
 <div align="center">
+  <img src="https://aiven.io/assets/img/aiven-logo.png" alt="Aiven logo" width="600px" height="150px">
+</div>
+
+<br>
+
+**I database (MySQL e PostgreSQL) utilizzati in questo progetto sono interamente ospitati in cloud su Aiven. Grazie a questa soluzione, è possibile beneficiare di un’infrastruttura scalabile, sicura e completamente gestita, semplificando la manutenzione e il monitoraggio dei servizi.
+La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito di Aiven non si possono attivare più servizi che utilizzino lo stesso DBMS.**
+
+***
+
+<div align="center">
   <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
 </div>
 
