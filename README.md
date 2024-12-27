@@ -2,6 +2,14 @@
 Repo del corso **Laboratorio Integrato (ERP-Fintech)**  
 ***
 
+## Indice
+1. [Introduzione](#introduzione)
+2. [Struttura del Sistema](#legenda)
+3. [Flusso Complessivo](#flusso-complessivo)
+4. [Vantaggi del Sistema](#vantaggi-del-sistema)
+5. [Connessioni ai Database](#connessioni-ai-database)
+6. [ETL Python in Cloud](#etl-python-in-cloud)
+
 ## Introduzione
 Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.  
 L'obiettivo principale è:
@@ -80,6 +88,10 @@ L'obiettivo principale è:
 - **Previsioni affidabili**: Modelli di Machine Learning aiutano a prevedere e prevenire problematiche operative.
 
 ***
+
+## Connessioni ai Database
+
+***
 <div align="center">
   <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
 </div>
@@ -110,7 +122,7 @@ L'obiettivo principale è:
   <img src="https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png" alt="Logo Scalingo">
 </div>
 
-## **Link ETL Python in Cloud**
+## **ETL Python in Cloud**
 
 L'applicazione è accessibile al seguente indirizzo:  
 **[ETL Project](https://etlprj.osc-fr1.scalingo.io/)**  
