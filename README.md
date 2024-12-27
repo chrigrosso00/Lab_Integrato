@@ -1,6 +1,6 @@
 <div align="center">
   <!-- Sostituisci questo link con il tuo banner o un'immagine rappresentativa del progetto -->
-  <img src="https://via.placeholder.com/800x200/0b3954/ffffff?text=Lab+Integrato" alt="Banner del Progetto" width="800px">
+  <img src="Lab Integrato.png" alt="Banner del Progetto" width="1000px">
 </div>
 
 <!-- Badges: puoi personalizzarli con shields.io in base al tuo progetto e linguaggio -->
@@ -10,8 +10,6 @@
   <img src="https://img.shields.io/badge/MySQL-8.0-blue.svg" alt="MySQL 8.0">
   <img src="https://img.shields.io/badge/PostgreSQL-13-blue.svg" alt="PostgreSQL 13">
 </p>
-
-<h1 align="center">Lab Integrato</h1>
 
 <div align="center">
   <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi, ML e BI.</i>
