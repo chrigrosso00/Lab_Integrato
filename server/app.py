@@ -4,6 +4,8 @@ import json
 import shutil
 import logging
 import mysql.connector
+import psycopg2
+import psycopg2.extras
 
 from datetime import datetime, timedelta, date
 from threading import Thread
@@ -12,6 +14,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from functools import wraps
 from mysql.connector import Error
+from pydantic import BaseModel, ValidationError, validator
+from typing import List, Optional
 
 ###############################################################################
 #                           CONFIGURAZIONE LOGGING                            #
@@ -22,39 +26,50 @@ def configure_logging():
     Configura i logger per l'applicazione:
     - logger principale (etl.log)
     - logger periodico (periodic.log)
+    - logger PostgreSQL (postgresql.log)
+    - logger MySQL (mysql.log)
     """
-    # Impostazione del logger principale
+    # Logger principale
     logging.basicConfig(
         filename='logs/etl.log',
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s'
     )
 
-    # Logger per attività periodiche
+    # Logger periodico
     periodic_logger = logging.getLogger('periodic_logger')
     periodic_logger.setLevel(logging.INFO)
-
-    # Handler per il file di log periodico
     periodic_handler = logging.FileHandler('logs/periodic.log')
     periodic_handler.setLevel(logging.INFO)
     periodic_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     periodic_handler.setFormatter(periodic_formatter)
-
-    # Aggiunge l'handler al logger periodico
     periodic_logger.addHandler(periodic_handler)
 
-    return periodic_logger
+    # Logger PostgreSQL
+    postgres_logger = logging.getLogger('postgresql_logger')
+    postgres_logger.setLevel(logging.INFO)
+    postgres_handler = logging.FileHandler('logs/postgresql.log')
+    postgres_handler.setLevel(logging.INFO)
+    postgres_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    postgres_handler.setFormatter(postgres_formatter)
+    postgres_logger.addHandler(postgres_handler)
 
-periodic_logger = configure_logging()
+    # Logger MySQL
+    mysql_logger = logging.getLogger('mysql_logger')
+    mysql_logger.setLevel(logging.INFO)
+    mysql_handler = logging.FileHandler('logs/mysql.log')
+    mysql_handler.setLevel(logging.INFO)
+    mysql_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    mysql_handler.setFormatter(mysql_formatter)
+    mysql_logger.addHandler(mysql_handler)
+
+    return periodic_logger, postgres_logger, mysql_logger
+
+periodic_logger, postgres_logger, mysql_logger = configure_logging()
 
 ###############################################################################
 #                          CONFIGURAZIONE PYDANTIC                            #
 ###############################################################################
-
-from datetime import datetime, timedelta
-from typing import List, Optional
-from pydantic import BaseModel, ValidationError, validator
-from datetime import datetime
 
 # Mappatura campi -> id anomalia
 FIELD_TO_ANOMALIA_ID = {
@@ -71,13 +86,13 @@ class Operazione(BaseModel):
     """
     Modello Pydantic per validare i dati di una operazione.
     """
-    id_ordine: int
-    codice_pezzo: str
-    codice_macchinario: str
-    codice_operatore: str
-    timestamp_inizio: datetime
-    timestamp_fine: datetime
-    tipo_operazione: str
+    id_ordine: Optional[int]
+    codice_pezzo: Optional[str]
+    codice_macchinario: Optional[str]
+    codice_operatore: Optional[str]
+    timestamp_inizio: Optional[datetime]
+    timestamp_fine: Optional[datetime]
+    tipo_operazione: Optional[str]
     peso_effettivo: Optional[float] = None
     temperatura_effettiva: Optional[float] = None
     numero_pezzi_ora: Optional[int] = None
@@ -108,7 +123,7 @@ class Operazione(BaseModel):
         solo se la tipo_operazione è 'forgiatura'.
         """
         if values.get('tipo_operazione') == 'forgiatura':
-            if v is None or not (-50 <= v <= 150):
+            if v is None or not (v < 700 or v > 1200):
                 raise ValueError('Temperatura fuori range')
         return v
 
@@ -149,6 +164,12 @@ MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
 MYSQL_USER = os.getenv('MYSQL_USER')
 MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
 
+POSTGRES_HOST = os.getenv('PG_HOST')
+POSTGRES_PORT = os.getenv('PG_PORT')
+POSTGRES_DATABASE = os.getenv('PG_DATABASE')
+POSTGRES_USER = os.getenv('PG_USER')
+POSTGRES_PASSWORD = os.getenv('PG_PASSWORD')
+
 ###############################################################################
 #                         FUNZIONI DI UTILITÀ (LOG E TIMESTAMP)               #
 ###############################################################################
@@ -157,7 +178,7 @@ def clear_log_file(log_file_path: str, backup: bool = True) -> None:
     Pulisce il file di log, mantenendo opzionalmente una copia di backup.
     """
     try:
-        if backup:
+        if backup and os.path.exists(log_file_path):
             backup_path = f"{log_file_path}.backup"
             shutil.copy(log_file_path, backup_path)
             logging.info(f"Backup del file di log creato: {backup_path}")
@@ -190,11 +211,16 @@ def parse_timestamp(timestamp_str: str) -> datetime:
     except ValueError:
         return datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S')
 
-def validate_timestamp(timestamp_str: str, tolerance_minutes: int = 60) -> datetime:
+def validate_timestamp(timestamp, tolerance_minutes: int = 60) -> datetime:
     """
     Valida che il timestamp sia entro una certa tolleranza rispetto all'orario corrente.
+    Supporta sia stringhe che oggetti datetime.
     """
-    parsed_timestamp = parse_timestamp(timestamp_str)
+    if isinstance(timestamp, datetime):
+        parsed_timestamp = timestamp
+    else:
+        parsed_timestamp = parse_timestamp(timestamp)
+
     now = datetime.utcnow()
     tolerance = timedelta(minutes=tolerance_minutes)
 
@@ -220,10 +246,27 @@ def connect_to_db():
         )
         return conn
     except Error as e:
-        logging.error(f"Errore nella connessione al database: {e}")
+        logging.error(f"Errore nella connessione al database MySQL: {e}")
         raise
 
-def insert_operation_data(cursor, data: dict) -> (bool, str, int):
+def connect_to_db_postgres():
+    """
+    Crea e ritorna una connessione al database PostgreSQL.
+    """
+    try:
+        conn = psycopg2.connect(
+            host=POSTGRES_HOST,
+            port=POSTGRES_PORT,
+            dbname=POSTGRES_DATABASE,
+            user=POSTGRES_USER,
+            password=POSTGRES_PASSWORD
+        )
+        return conn
+    except psycopg2.Error as e:
+        logging.error(f"Errore nella connessione al database PostgreSQL: {e}")
+        raise
+
+def insert_operation_data(connection, cursor, data: dict) -> (bool, str, int):
     """
     Inserisce l'operazione e gli eventuali dettagli (forgiatura o cnc) e anomalie.
     Ritorna (success, error_message, id_operazione).
@@ -282,10 +325,13 @@ def insert_operation_data(cursor, data: dict) -> (bool, str, int):
                 anomaly_id = anomaly['id']
                 cursor.execute(insert_anomalia_operazione, (anomaly_id, id_operazione, 'Anomalia registrata'))
 
+        # Commit delle modifiche
+        connection.commit()
         return True, None, id_operazione
 
     except Exception as e:
-        logging.error(f"Errore durante l'inserimento nel database: {e}", exc_info=True)
+        logging.error(f"Errore durante l'inserimento nel database MySQL: {e}", exc_info=True)
+        connection.rollback()  # Rollback delle modifiche in caso di errore
         return False, str(e), None
 
 def decrement_quantita_pezzo_ordine(cursor, id_ordine: int, codice_pezzo: str) -> None:
@@ -324,104 +370,207 @@ def save_records(cursor, connection, query, records, retries=3):
     return False
 
 ###############################################################################
-#                          FUNZIONE PRINCIPALE DI ETL                         #
+#                          FUNZIONE PRINCIPALE DI ETL POSTGRES                #
 ###############################################################################
-def main_etl(rows):
+def main_etl_postgres(rows):
     global etl_status
     etl_status['running'] = True
     etl_status['last_run'] = datetime.utcnow().isoformat()
 
-    my_conn = None
-    my_cursor = None
+    pg_conn = None
+    pg_cursor = None
 
     try:
-        my_conn = connect_to_db()
-        my_cursor = my_conn.cursor(dictionary=True)
-        logging.info('Connesso a MySQL.')
+        pg_conn = connect_to_db_postgres()
+        pg_cursor = pg_conn.cursor()
+        postgres_logger.info('Connesso a PostgreSQL.')
 
-        toggle_foreign_keys(my_cursor, enable=False)
+        insert_query = """
+            INSERT INTO raw_operazione (
+                id_ordine, codice_pezzo, codice_macchinario, codice_operatore,
+                timestamp_inizio, timestamp_fine, peso_effettivo, temperatura_effettiva,
+                id_anomalia, numero_pezzi_ora, tipo_fermo, tipo_operazione
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
 
         for i, data in enumerate(rows):
-            logging.debug(f"Processo record #{i}: {data}")
+            postgres_logger.debug(f"Ingestione record PostgreSQL #{i}: {data}")
             try:
-                # Validazione con Pydantic
-                operazione = Operazione(**data)
-                operazione_dict = operazione.dict()
+                insert_values = (
+                    data.get('id_ordine'),
+                    data.get('codice_pezzo'),
+                    data.get('codice_macchinario'),
+                    data.get('codice_operatore'),
+                    data.get('timestamp_inizio'),
+                    data.get('timestamp_fine'),
+                    data.get('peso_effettivo'),
+                    data.get('temperatura_effettiva'),
+                    data['anomalia'][0]['id'] if data.get('anomalia') else None,
+                    data.get('numero_pezzi_ora'),
+                    data.get('tipo_fermo'),
+                    data.get('tipo_operazione')
+                )
 
-                success, error_msg, id_operazione = insert_operation_data(my_cursor, operazione_dict)
-                if success:
-                    logging.info(f"Record inserito con successo: ID {id_operazione}")
-                    id_ordine = data.get('id_ordine')
-                    codice_pezzo = data.get('codice_pezzo')
-                    if id_ordine and codice_pezzo:
-                        decrement_quantita_pezzo_ordine(my_cursor, id_ordine, codice_pezzo)
-                else:
-                    logging.error(f"Inserimento fallito per il record {data}: {error_msg}")
-
-            except ValidationError as ve:
-                # Gestione errori di validazione: segnalare anomalia
-                errors = ve.errors()
-                logging.warning(f"Record invalido: {data} - Anomalie: {errors}")
-
-                anomalie = []
-                operazione_dict = data.copy()
-                for error in errors:
-                    field = error['loc'][-1]
-                    message = error['msg']
-                    anomaly_id = FIELD_TO_ANOMALIA_ID.get(field, 999)
-                    anomalie.append({'id': anomaly_id, 'message': f"{field}: {message}"})
-                    # Svuota il campo per evitare errori in DB
-                    operazione_dict[field] = None
-
-                # Inserisco comunque il record con i campi invalidi forzati a None
-                try:
-                    success, error_msg, id_operazione = insert_operation_data(my_cursor, operazione_dict)
-                    if success:
-                        logging.info(f"Record inserito con campi invalidi: ID {id_operazione}")
-                        if anomalie and id_operazione:
-                            insert_anomalia_operazione = """
-                                INSERT INTO anomalia_operazione (id_anomalia, id_operazione, note)
-                                VALUES (%s, %s, %s)
-                            """
-                            for anomaly in anomalie:
-                                anomaly_id = anomaly.get('id')
-                                message = anomaly.get('message')
-                                my_cursor.execute(insert_anomalia_operazione,
-                                                  (anomaly_id, id_operazione, message))
-                    else:
-                        logging.error(f"Inserimento fallito per il record con anomalie {data}: {error_msg}")
-                except Exception as e:
-                    logging.error(f"Errore durante l'inserimento del record invalidato {data}: {e}", exc_info=True)
+                pg_cursor.execute(insert_query, insert_values)
+                pg_conn.commit()
+                postgres_logger.info(f"Record PostgreSQL inserito con successo: ID {pg_cursor.lastrowid}")
 
             except Exception as e:
-                logging.error(f"Errore durante il processamento del record {data}: {e}", exc_info=True)
-                my_conn.rollback()
-                toggle_foreign_keys(my_cursor, enable=True)
+                postgres_logger.error(f"Errore durante l'inserimento in PostgreSQL per il record {data}: {e}", exc_info=True)
+                pg_conn.rollback()
                 etl_status['last_error'] = str(e)
                 return 500
 
-        my_conn.commit()
-        toggle_foreign_keys(my_cursor, enable=True)
-
-        logging.info("ETL completato con successo.")
+        postgres_logger.info("Ingestione ETL PostgreSQL completata con successo.")
         etl_status['last_success'] = datetime.utcnow().isoformat()
         etl_status['last_error'] = None
         return 200
 
     except Exception as e:
-        logging.error(f'Errore generico ETL: {e}', exc_info=True)
-        periodic_logger.error(f"ETL fallito con errore: {e}")
+        postgres_logger.error(f'Errore generico ETL PostgreSQL: {e}', exc_info=True)
+        periodic_logger.error(f"ETL PostgreSQL fallito con errore: {e}")
         etl_status['last_error'] = str(e)
         return 500
 
     finally:
         etl_status['running'] = False
-        periodic_logger.info("ETL completato")
+        periodic_logger.info("ETL PostgreSQL completato")
+        if pg_cursor:
+            pg_cursor.close()
+        if pg_conn and not pg_conn.closed:
+            pg_conn.close()
+            postgres_logger.info('Connessione a PostgreSQL chiusa.')
+
+###############################################################################
+#                  FUNZIONE VALIDAZIONE E TRASFERIMENTO A MYSQL               #
+###############################################################################          
+def process_and_transfer_to_mysql():
+    global etl_status
+    etl_status['running'] = True
+    etl_status['last_run'] = datetime.utcnow().isoformat()
+
+    pg_conn = None
+    pg_cursor = None
+    my_conn = None
+    my_cursor = None
+
+    try:
+        pg_conn = connect_to_db_postgres()
+        pg_cursor = pg_conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        postgres_logger.info('Connesso a PostgreSQL per la validazione.')
+
+        my_conn = connect_to_db()
+        my_cursor = my_conn.cursor(dictionary=True)
+        mysql_logger.info('Connesso a MySQL per il trasferimento.')
+
+        # Seleziona i record che non sono ancora stati processati
+        select_query = """
+            SELECT *
+            FROM raw_operazione
+            WHERE stato = 'PENDING';
+        """
+        pg_cursor.execute(select_query)
+        raw_records = pg_cursor.fetchall()
+        postgres_logger.info(f"Record RAW trovati: {len(raw_records)}")
+
+        for record in raw_records:
+            data = dict(record)
+            anomalie = []  # Per raccogliere eventuali anomalie del record
+
+            try:
+                # Validazione con Pydantic
+                postgres_logger.debug(f"Record da validare: {data}")
+                try:
+                    operazione = Operazione(**data)
+                except ValidationError as ve:
+                    errors = ve.errors()
+                    postgres_logger.warning(f"Record non valido: {data} - Errori: {errors}")
+                    for error in errors:
+                        field = error['loc'][-1]
+                        message = error['msg']
+                        anomaly_id = FIELD_TO_ANOMALIA_ID.get(field, 999)
+                        anomalie.append({'id': anomaly_id, 'message': f"{field}: {message}"})
+                    # Continua con i campi invalidi forzati a None
+                    operazione_dict = {**data, **{err['loc'][-1]: None for err in errors}}
+                else:
+                    operazione_dict = operazione.dict()
+
+                # Inserimento in MySQL
+                success, error_msg, id_operazione = insert_operation_data(my_conn, my_cursor, operazione_dict)
+                mysql_logger.debug(f"Tentativo di inserimento in MySQL: {operazione_dict}")
+                if success:
+                    mysql_logger.info(f"Record inserito con successo in MySQL: ID {id_operazione}")
+
+                    # Registra le anomalie associate
+                    if anomalie:
+                        insert_anomalia_operazione = """
+                            INSERT INTO anomalia_operazione (id_anomalia, id_operazione, note)
+                            VALUES (%s, %s, %s)
+                        """
+                        for anomaly in anomalie:
+                            anomaly_id = anomaly['id']
+                            message = anomaly['message']
+                            my_cursor.execute(insert_anomalia_operazione, (anomaly_id, id_operazione, message))
+                        mysql_logger.info(f"Anomalie registrate per ID {id_operazione}: {anomalie}")
+
+                    # Aggiorna lo stato in PostgreSQL
+                    update_status_query = """
+                        UPDATE raw_operazione
+                        SET stato = 'PROCESSED'
+                        WHERE id_operazione = %s;
+                    """
+                    pg_cursor.execute(update_status_query, (record['id_operazione'],))
+                    pg_conn.commit()
+
+                    # Cancellazione del record processato
+                    delete_query = """
+                        DELETE FROM raw_operazione
+                        WHERE id_operazione = %s;
+                    """
+                    pg_cursor.execute(delete_query, (record['id_operazione'],))
+                    pg_conn.commit()
+                    postgres_logger.info(f"Record con ID {record['id_operazione']} cancellato da PostgreSQL.")
+                else:
+                    mysql_logger.error(f"Inserimento fallito per il record MySQL {data}: {error_msg}")
+                    # Aggiorna lo stato in PostgreSQL come 'ERROR'
+                    update_status_query = """
+                        UPDATE raw_operazione
+                        SET stato = 'ERROR'
+                        WHERE id_operazione = %s;
+                    """
+                    pg_cursor.execute(update_status_query, (record['id_operazione'],))
+                    pg_conn.commit()
+
+            except Exception as e:
+                mysql_logger.error(f"Errore durante il trasferimento del record {record}: {e}", exc_info=True)
+                pg_conn.rollback()
+                my_conn.rollback()
+                etl_status['last_error'] = str(e)
+
+        postgres_logger.info("Processo di validazione e trasferimento completato con successo.")
+        etl_status['last_success'] = datetime.utcnow().isoformat()
+        etl_status['last_error'] = None
+        return 200
+
+    except Exception as e:
+        mysql_logger.error(f'Errore generico nel processo di trasferimento: {e}', exc_info=True)
+        periodic_logger.error(f"Processo di trasferimento fallito con errore: {e}")
+        etl_status['last_error'] = str(e)
+        return 500
+
+    finally:
+        etl_status['running'] = False
+        periodic_logger.info("Processo di trasferimento completato")
+        if pg_cursor:
+            pg_cursor.close()
+        if pg_conn:
+            pg_conn.close()
+            postgres_logger.info('Connessione a PostgreSQL chiusa.')
         if my_cursor:
             my_cursor.close()
         if my_conn and my_conn.is_connected():
             my_conn.close()
-            logging.info('Connessione a MySQL chiusa.')
+            mysql_logger.info('Connessione a MySQL chiusa.')
 
 ###############################################################################
 #                  FUNZIONI PER LA GESTIONE DEGLI ORDINI E PEZZI              #
@@ -470,7 +619,7 @@ def get_pezzo_min_idordine():
             update_magazzino_fake(my_cursor, my_conn, response)
 
     except mysql.connector.Error as err:
-        logging.error(f"Errore di connessione al database: {err}")
+        logging.error(f"Errore di connessione al database MySQL: {err}")
 
     finally:
         # Aggiorno le quantità
@@ -485,7 +634,7 @@ def get_pezzo_min_idordine():
             my_cursor.close()
         if my_conn and my_conn.is_connected():
             my_conn.close()
-            logging.info("Connessione chiusa correttamente.")
+            logging.info("Connessione a MySQL chiusa correttamente.")
 
     return response
 
@@ -534,7 +683,7 @@ def aggiorna_quantita_pezzi_ordine(response):
             cursor.close()
         if conn and conn.is_connected():
             conn.close()
-            logging.info('Connessione al database chiusa.')
+            logging.info('Connessione a MySQL chiusa.')
 
 def aggiorna_stato_ordini():
     """
@@ -624,7 +773,7 @@ def require_api_key(f):
     return decorated
 
 ###############################################################################
-#                              ENDOPINT API FLASK                             #
+#                              ENDPOINT API FLASK                             #
 ###############################################################################
 @app.route('/run-etl', methods=['POST'])
 @require_api_key
@@ -640,7 +789,7 @@ def trigger_etl():
         if not isinstance(data, list):
             return jsonify({'error': 'I dati devono essere una lista di record.'}), 400
 
-        thread = Thread(target=main_etl, args=(data,))
+        thread = Thread(target=main_etl_postgres, args=(data,))
         thread.start()
 
         logging.info('Processo ETL avviato tramite API.')
@@ -649,55 +798,44 @@ def trigger_etl():
         logging.error(f'Errore nell\'avvio dell\'ETL: {e}')
         return jsonify({'error': 'Errore del server interno.'}), 500
 
-@app.route('/aggiorna/ordine', methods=['POST'])
-def aggiorna_ordine():
-    """
-    Aggiorna lo stato degli ordini: da 'IN ATTESA' a 'COMPLETATO' se terminati.
-    """
-    try:
-        aggiorna_stato_ordini()
-        return jsonify({'message': 'Ordine aggiornato con successo'}), 200
-    except Exception as e:
-        logging.error(f"Errore nell'aggiornamento della tabella ordine: {e}")
-        return jsonify({'error': 'Impossibile aggiornare ordine.'}), 500
-
-@app.route('/status', methods=['GET'])
-def get_status():
-    """
-    Restituisce lo stato corrente dell'ETL.
-    """
-    return jsonify(etl_status), 200
-
-@app.route('/clear-logs', methods=['GET', 'POST'])
+@app.route('/insert-postgres', methods=['POST'])
 @require_api_key
-def clear_logs():
+def insert_postgres_endpoint():
     """
-    Pulisce i file di log 'etl.log' e 'periodic.log'.
-    """
-    clear_log_file('logs/etl.log')
-    clear_log_file('logs/periodic.log')
-    return jsonify({'message': 'File di log puliti con successo.'}), 200
-
-@app.route('/insert', methods=['POST'])
-@require_api_key
-def insert_endpoint():
-    """
-    Endpoint per inserire dati nei processi di forgiatura/cnc tramite ETL.
+    Endpoint per inserire dati nella tabella raw_operazione tramite ETL PostgreSQL.
     """
     try:
         data = request.get_json()
-        logging.info(f'Dati ricevuti: {data}')
+        postgres_logger.info(f'Dati ricevuti per PostgreSQL: {data}')
         
         if not isinstance(data, list):
             return jsonify({'error': 'I dati devono essere una lista di record.'}), 400
 
-        result = main_etl(data)
+        result = main_etl_postgres(data)
         if result == 200:
-            return jsonify({'message': 'Dati inseriti con successo.'}), 200
+            return jsonify({'message': 'Dati inseriti con successo in PostgreSQL.'}), 200
         else:
-            return jsonify({'error': 'Inserimento fallito.'}), 500
+            return jsonify({'error': 'Inserimento fallito in PostgreSQL.'}), 500
     except Exception as e:
-        logging.error(f'Errore nella gestione della richiesta: {e}')
+        postgres_logger.error(f'Errore nella gestione della richiesta PostgreSQL: {e}')
+        return jsonify({'error': 'Errore del server interno.'}), 500
+
+@app.route('/process-transfer', methods=['POST'])
+def process_transfer():
+    """
+    Endpoint per avviare il processo di validazione e trasferimento dei dati da PostgreSQL a MySQL.
+    """
+    if etl_status['running']:
+        return jsonify({'status': 'Processo di trasferimento già in esecuzione.'}), 400
+
+    try:
+        thread = Thread(target=process_and_transfer_to_mysql)
+        thread.start()
+
+        mysql_logger.info('Processo di validazione e trasferimento avviato tramite API.')
+        return jsonify({'status': 'Processo di trasferimento avviato.'}), 202
+    except Exception as e:
+        mysql_logger.error(f'Errore nell\'avvio del processo di trasferimento: {e}')
         return jsonify({'error': 'Errore del server interno.'}), 500
 
 @app.route('/ordine', methods=['GET'])
@@ -713,6 +851,18 @@ def get_ordine():
         logging.error(f'Errore nella creazione dell\'ordine: {e}')
         return jsonify({'error': 'Impossibile creare ordine.'}), 500
 
+@app.route('/aggiorna/ordine', methods=['POST'])
+def aggiorna_ordine():
+    """
+    Aggiorna lo stato degli ordini: da 'IN ATTESA' a 'COMPLETATO' se terminati.
+    """
+    try:
+        aggiorna_stato_ordini()
+        return jsonify({'message': 'Ordine aggiornato con successo'}), 200
+    except Exception as e:
+        logging.error(f"Errore nell'aggiornamento della tabella ordine: {e}")
+        return jsonify({'error': 'Impossibile aggiornare ordine.'}), 500
+
 @app.route('/logs', methods=['GET'])
 def get_logs():
     """
@@ -720,6 +870,32 @@ def get_logs():
     """
     try:
         with open('logs/etl.log', 'r') as log_file:
+            logs = log_file.read()
+        return jsonify({'logs': logs}), 200
+    except Exception as e:
+        logging.error(f'Errore nella lettura del file di log: {e}')
+        return jsonify({'error': 'Impossibile leggere i log.'}), 500
+
+@app.route('/mysql-logs', methods=['GET'])
+def get_logs_mysql():
+    """
+    Restituisce il contenuto del file 'etl.log'.
+    """
+    try:
+        with open('logs/mysql.log', 'r') as log_file:
+            logs = log_file.read()
+        return jsonify({'logs': logs}), 200
+    except Exception as e:
+        logging.error(f'Errore nella lettura del file di log: {e}')
+        return jsonify({'error': 'Impossibile leggere i log.'}), 500
+
+@app.route('/postgresql-logs', methods=['GET'])
+def get_logs_postgres():
+    """
+    Restituisce il contenuto del file 'etl.log'.
+    """
+    try:
+        with open('logs/postgresql.log', 'r') as log_file:
             logs = log_file.read()
         return jsonify({'logs': logs}), 200
     except Exception as e:
@@ -739,6 +915,41 @@ def get_log_cron():
         logging.error(f'Errore nella lettura del file di log: {e}')
         return jsonify({'error': 'Impossibile leggere i log.'}), 500
 
+ALLOWED_LOG_FILES = {
+    'etl': 'logs/etl.log',
+    'periodic': 'logs/periodic.log',
+    'postgresql': 'logs/postgresql.log',
+    'mysql': 'logs/mysql.log'
+}
+
+@app.route('/clear-logs', methods=['GET', 'POST'])
+@require_api_key
+def clear_logs():
+    """
+    Pulisce i file di log specificati. Se nessun parametro è fornito, pulisce tutti i log.
+    """
+    file_param = request.args.get('file')
+
+    if file_param:
+        # Pulizia di un singolo file di log
+        log_file = ALLOWED_LOG_FILES.get(file_param.lower())
+        if log_file:
+            clear_log_file(log_file)
+            return jsonify({'message': f"File di log '{file_param}' pulito con successo."}), 200
+        else:
+            return jsonify({'error': f"File di log '{file_param}' non riconosciuto."}), 400
+    else:
+        # Pulizia di tutti i file di log
+        for log_file in ALLOWED_LOG_FILES.values():
+            clear_log_file(log_file)
+        return jsonify({'message': 'Tutti i file di log sono stati puliti con successo.'}), 200
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    """
+    Restituisce lo stato corrente dell'ETL.
+    """
+    return jsonify(etl_status), 200
 ###############################################################################
 #                                  MAIN APP                                   #
 ###############################################################################
