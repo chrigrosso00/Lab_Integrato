@@ -18,12 +18,12 @@
 <br/>
 
 ## Indice
-1. [🔰 Introduzione](#introduzione)  
-2. [🔨 Struttura del Sistema](#struttura-del-sistema)  
-3. [⚙️ Flusso Complessivo](#flusso-complessivo)  
-4. [📈 Vantaggi del Sistema](#vantaggi-del-sistema)  
-5. [💾 Connessioni ai Database](#connessioni-ai-database)  
-6. [🐍 ETL Python in Cloud](#etl-python-in-cloud)
+1. [🔰 Introduzione](#-introduzione)  
+2. [🔨 Struttura del Sistema](#-struttura-del-sistema)  
+3. [⚙️ Flusso Complessivo](#-flusso-complessivo)  
+4. [📈 Vantaggi del Sistema](#-vantaggi-del-sistema)  
+5. [💾 Connessioni ai Database](#-connessioni-ai-database)  
+6. [🐍 ETL Python in Cloud](#-etl-python-in-cloud)
 
 ## 🔰 Introduzione
 Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.  
