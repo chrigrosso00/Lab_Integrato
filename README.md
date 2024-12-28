@@ -9,12 +9,12 @@
 ---
 
 ## 📜 Indice
-1. [📖 Descrizione](#Descrizione)  
-2. [✨ Funzionalità principali](#Funzionalità-principali)
-3. [🔄 Flusso di lavoro](#Flusso-di-lavoro)
-4. [🌐 Endpoint REST](#Endpoint-REST)  
-5. [📊 Logging](#Logging)  
-6. [💡 Tecnologie utilizzate](#Tecnologie-utilizzate)  
+1. [📖 Descrizione](#descrizione)  
+2. [✨ Funzionalità principali](#funzionalità-principali)
+3. [🔄 Flusso di lavoro](#flusso-di-lavoro)
+4. [🌐 Endpoint REST](#endpoint-REST)  
+5. [📊 Logging](#logging)  
+6. [💡 Tecnologie utilizzate](#tecnologie-utilizzate)  
 
 ---
 
