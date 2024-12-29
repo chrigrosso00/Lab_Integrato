@@ -15,10 +15,10 @@
 1. [📖 Descrizione](#-descrizione)  
 2. [✨ Funzionalità principali](#-funzionalità-principali)
 3. [🔄 Flusso di lavoro](#-flusso-di-lavoro)
-4. [🌐 Endpoint REST](#-endpoint-REST)  
-5. [📊 Logging](#-logging)  
-6. [💡 Tecnologie utilizzate](#-tecnologie-utilizzate)
-7. [🔍 Monitoraggio processi ETL](#-monitoraggio-processi-etl)
+4. [🌐 Endpoint REST](#-endpoint-REST)
+5. [🔍 Monitoraggio processi ETL](#-monitoraggio-processi-etl)
+6. [📊 Logging](#-logging)  
+7. [💡 Tecnologie utilizzate](#-tecnologie-utilizzate)
 
 ---
 
