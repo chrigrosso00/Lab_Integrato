@@ -8,17 +8,23 @@
 
 ---
 
-## 📜 Indice
+<div align="center">
+  <h1>📜 Indice</h1>
+</div>
+
 1. [📖 Descrizione](#-descrizione)  
 2. [✨ Funzionalità principali](#-funzionalità-principali)
 3. [🔄 Flusso di lavoro](#-flusso-di-lavoro)
 4. [🌐 Endpoint REST](#-endpoint-REST)  
 5. [📊 Logging](#-logging)  
-6. [💡 Tecnologie utilizzate](#-tecnologie-utilizzate)  
+6. [💡 Tecnologie utilizzate](#-tecnologie-utilizzate)
+7. [🔍 Monitoraggio processi ETL](#-monitoraggio-processi-etl)
 
 ---
 
-## 📖 **Descrizione**
+<div align="center">
+  <h1>📖 Descrizione</h1>
+</div>
 
 Questa applicazione ETL (**Extract, Transform, Load**) è sviluppata in **Python** con il framework **Flask**. Gestisce l'elaborazione di dati di produzione tra database **PostgreSQL** e **MySQL**, convalidando i dati con **Pydantic**, applicando logiche di business e registrando anomalie.
 
@@ -29,7 +35,9 @@ L'applicazione fornisce un'interfaccia REST per:
 
 ---
 
-## ✨ **Funzionalità principali**
+<div align="center">
+  <h1>✨ Funzionalità principali</h1>
+</div>
 
 ### 📂 **1. Estrazione**
 - I dati JSON vengono ricevuti tramite endpoint REST o estratti dalla tabella `raw_operazione` in **PostgreSQL**.
@@ -66,9 +74,15 @@ L'applicazione fornisce un'interfaccia REST per:
 - Endpoint protetti da **API_KEY** (`X-API-KEY` nell'header).
 - Credenziali e configurazioni tramite **variabili d'ambiente**.
 
+### 🔍 **8. Monitoraggio**
+- Tabella in **PostgreSQL** per il monitoraggio delle funzioni principale dei processi ETL.
+- Endpoint REST per facilitare l'osservamento dell'andamento.
+
 ---
 
-## 🔄 **Flusso di lavoro**
+<div align="center">
+  <h1>🔄 Flusso di lavoro</h1>
+</div>
 
 Il processo ETL segue una sequenza di passaggi ben definiti, integrati con il flusso di **Power Automate** e le API REST esposte dall'applicazione.
 
@@ -99,15 +113,25 @@ Il processo ETL segue una sequenza di passaggi ben definiti, integrati con il fl
 
 ---
 
-## 🌐 **Endpoint REST**
+<div align="center">
+  <h1>🌐 Endpoint REST</h1>
+</div>
 
-### 🚀 **Avvio e Monitoraggio**
+### 🚀 **Avvio**
 | **Endpoint**               | **Descrizione**                                                       |
 |----------------------------|-----------------------------------------------------------------------|
 | **`POST /run-etl`**        | Avvia l'ETL in un thread separato per elaborare dati JSON ricevuti.   |
 | **`POST /insert-postgres`**| Inserisce dati in `raw_operazione` di PostgreSQL.                    |
 | **`POST /process-transfer`**| Trasferisce e valida i dati da PostgreSQL a MySQL.                   |
+
+---
+
+## 🔍 **Monitoraggio**
+| **Endpoint**               | **Descrizione**                                                       |
+|----------------------------|-----------------------------------------------------------------------|
 | **`GET /status`**          | Restituisce lo stato corrente del processo ETL.                      |
+| **`GET /actions/errors`**        | Restituisce tutti i record con lo stato `FAILURE` dalla tabella `etl_tracked_actions`.   |
+| **`GET /actions`** | Restituisce tutti i record della tabella `etl_tracked_actions`.                    |
 
 ---
 
@@ -129,7 +153,48 @@ Il processo ETL segue una sequenza di passaggi ben definiti, integrati con il fl
 
 ---
 
-## 📊 **Logging**
+<div align="center">
+  <h1>🔍 Monitoraggio processi ETL</h1>
+</div>
+
+L'applicazione ETL include due endpoint REST che permettono di accedere ai dati registrati nella tabella `etl_tracked_actions`. Questi endpoint semplificano l'accesso ai dati registrati e forniscono un controllo diretto sul monitoraggio dei processi ETL.
+
+---
+
+### 🗄️ **Tabella di monitoraggio**
+- Tutti i dettagli delle operazioni ETL vengono registrati nella tabella `etl_tracked_actions` in **PostgreSQL**.
+- **Campi principali**:
+  - `action_type`: Descrive il tipo di operazione (es. `process_transfer`, `insert_mysql`).
+  - `status`: Stato dell'operazione (`SUCCESS`, `FAILURE`).
+  - `details`: Informazioni aggiuntive in formato JSONB (es. numero di record elaborati).
+  - `error_message`: Eventuali errori riscontrati durante l'operazione.
+ 
+---
+
+#### **1. Recupero di tutti i record ordinati**
+- **Endpoint**: `GET /actions`
+- **Descrizione**: Restituisce tutti i record della tabella `etl_tracked_actions`, ordinati in ordine decrescente di timestamp (dal più recente al più vecchio).
+
+#### **2. Recupero dei record con stato di errore**
+- **Endpoint**: `GET /actions/errors`
+- **Descrizione**: Restituisce tutti i record con lo stato `FAILURE` dalla tabella `etl_tracked_actions`. Se non sono presenti record con errori, restituisce un messaggio dedicato.
+
+---
+
+### 📊 **Benefici**
+- **Chiarezza**: Facilita l'accesso ai dati delle azioni ETL.
+- **Monitoraggio**: Isola rapidamente i record con errori, utili per il debugging e l'ottimizzazione.
+- **Efficienza**: Ordinamento per timestamp per evidenziare le azioni più recenti.
+
+### 📜 **Funzionalità**
+- Recupero di tutti i record o solo di quelli con errori.
+- Risposta strutturata per gestire sia i risultati trovati che i casi in cui non ci sono dati disponibili.
+
+---
+
+<div align="center">
+  <h1>📊 Logging</h1>
+</div>
 
 - 🗂️ **`etl.log`**: Processi principali di ETL.
 - 🔄 **`periodic.log`**: Attività pianificate.
@@ -140,7 +205,10 @@ Tutti i log sono archiviati nella directory `logs/`.
 
 ---
 
-## 💡 **Tecnologie utilizzate**
+<div align="center">
+  <h1>💡 Tecnologie utilizzate</h1>
+</div>
+
 - **Python** 🐍
 - **Flask** 🌐
 - **Pydantic** ✅
