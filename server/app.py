@@ -229,6 +229,77 @@ def validate_timestamp(timestamp, tolerance_minutes: int = 60) -> datetime:
 
     return parsed_timestamp
 
+def log_etl_action(cursor, action_type, status, details=None, error_message=None, related_id=None):
+    """
+    Logga un'azione ETL nella tabella etl_tracked_actions.
+    """
+    try:
+        insert_query = """
+            INSERT INTO etl_tracked_actions (action_type, status, details, error_message, related_id)
+            VALUES (%s, %s, %s, %s, %s)
+        """
+        cursor.execute(insert_query, (
+            action_type,
+            status,
+            json.dumps(details) if details else None,
+            error_message,
+            related_id
+        ))
+    except Exception as e:
+        logging.error(f"Errore durante il logging dell'azione ETL: {e}", exc_info=True)
+
+def fetch_all_etl_actions():
+    """
+    Recupera tutti i record dalla tabella etl_tracked_actions ordinati dal più recente al più vecchio.
+    """
+    conn = None
+    cursor = None
+    try:
+        conn = connect_to_db_postgres()
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        query = """
+            SELECT * FROM etl_tracked_actions
+            ORDER BY timestamp DESC;
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return [dict(row) for row in results]
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+def fetch_error_etl_actions():
+    """
+    Recupera tutti i record con stato "ERROR" dalla tabella etl_tracked_actions.
+    Se non ci sono record, restituisce un messaggio specifico.
+    """
+    conn = None
+    cursor = None
+    try:
+        conn = connect_to_db_postgres()
+        cursor = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        query = """
+            SELECT * FROM etl_tracked_actions
+            WHERE status = 'ERROR'
+            ORDER BY timestamp DESC;
+        """
+        cursor.execute(query)
+        results = cursor.fetchall()
+
+        if not results:
+            return {"message": "Nessun record con stato 'ERROR' trovato."}
+        return [dict(row) for row in results]
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 ###############################################################################
 #                      CONNESSIONE E FUNZIONI AL DATABASE                     #
 ###############################################################################
@@ -370,7 +441,7 @@ def save_records(cursor, connection, query, records, retries=3):
     return False
 
 ###############################################################################
-#                          FUNZIONE PRINCIPALE DI ETL POSTGRES                #
+#                       FUNZIONE PRINCIPALE DI ETL POSTGRES                   #
 ###############################################################################
 def main_etl_postgres(rows):
     global etl_status
@@ -472,6 +543,7 @@ def process_and_transfer_to_mysql():
         pg_cursor.execute(select_query)
         raw_records = pg_cursor.fetchall()
         postgres_logger.info(f"Record RAW trovati: {len(raw_records)}")
+        log_etl_action(pg_cursor, 'select_pending_records', 'SUCCESS', {'count': len(raw_records)})
 
         for record in raw_records:
             data = dict(record)
@@ -500,6 +572,7 @@ def process_and_transfer_to_mysql():
                 mysql_logger.debug(f"Tentativo di inserimento in MySQL: {operazione_dict}")
                 if success:
                     mysql_logger.info(f"Record inserito con successo in MySQL: ID {id_operazione}")
+                    log_etl_action(my_cursor, 'insert_mysql', 'SUCCESS', {'id_operazione': id_operazione})
 
                     # Registra le anomalie associate
                     if anomalie:
@@ -512,6 +585,7 @@ def process_and_transfer_to_mysql():
                             message = anomaly['message']
                             my_cursor.execute(insert_anomalia_operazione, (anomaly_id, id_operazione, message))
                         mysql_logger.info(f"Anomalie registrate per ID {id_operazione}: {anomalie}")
+                        log_etl_action(my_cursor, 'insert_anomalies', 'SUCCESS', {'id_operazione': id_operazione, 'anomalies': anomalie})
 
                     # Aggiorna lo stato in PostgreSQL
                     update_status_query = """
@@ -521,6 +595,7 @@ def process_and_transfer_to_mysql():
                     """
                     pg_cursor.execute(update_status_query, (record['id_operazione'],))
                     pg_conn.commit()
+                    log_etl_action(pg_cursor, 'update_status', 'SUCCESS', {'id_operazione': record['id_operazione'], 'new_status': 'PROCESSED'})
 
                     # Cancellazione del record processato
                     delete_query = """
@@ -530,8 +605,11 @@ def process_and_transfer_to_mysql():
                     pg_cursor.execute(delete_query, (record['id_operazione'],))
                     pg_conn.commit()
                     postgres_logger.info(f"Record con ID {record['id_operazione']} cancellato da PostgreSQL.")
+                    log_etl_action(pg_cursor, 'delete_record', 'SUCCESS', {'id_operazione': record['id_operazione']})
                 else:
                     mysql_logger.error(f"Inserimento fallito per il record MySQL {data}: {error_msg}")
+                    log_etl_action(my_cursor, 'insert_mysql', 'FAILURE', {'error_msg': error_msg, 'data': data})
+
                     # Aggiorna lo stato in PostgreSQL come 'ERROR'
                     update_status_query = """
                         UPDATE raw_operazione
@@ -545,9 +623,11 @@ def process_and_transfer_to_mysql():
                 mysql_logger.error(f"Errore durante il trasferimento del record {record}: {e}", exc_info=True)
                 pg_conn.rollback()
                 my_conn.rollback()
+                log_etl_action(pg_cursor, 'transfer_error', 'FAILURE', {'error_msg': str(e), 'record': record})
                 etl_status['last_error'] = str(e)
 
         postgres_logger.info("Processo di validazione e trasferimento completato con successo.")
+        log_etl_action(pg_cursor, 'process_complete', 'SUCCESS', {'processed_count': len(raw_records)})
         etl_status['last_success'] = datetime.utcnow().isoformat()
         etl_status['last_error'] = None
         return 200
@@ -555,6 +635,7 @@ def process_and_transfer_to_mysql():
     except Exception as e:
         mysql_logger.error(f'Errore generico nel processo di trasferimento: {e}', exc_info=True)
         periodic_logger.error(f"Processo di trasferimento fallito con errore: {e}")
+        log_etl_action(pg_cursor, 'process_failure', 'FAILURE', {'error_msg': str(e)})
         etl_status['last_error'] = str(e)
         return 500
 
@@ -943,6 +1024,33 @@ def clear_logs():
         for log_file in ALLOWED_LOG_FILES.values():
             clear_log_file(log_file)
         return jsonify({'message': 'Tutti i file di log sono stati puliti con successo.'}), 200
+
+@app.route('/actions', methods=['GET'])
+def get_all_etl_actions():
+    """
+    API endpoint per recuperare tutti i record dalla tabella etl_tracked_actions.
+    """
+    try:
+        results = fetch_all_etl_actions()
+        return jsonify({"success": True, "data": results}), 200
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/actions/errors', methods=['GET'])
+def get_error_etl_actions():
+    """
+    API endpoint per recuperare tutti i record con stato "ERROR".
+    Se non ci sono record, restituisce un messaggio specifico.
+    """
+    try:
+        results = fetch_error_etl_actions()
+        if isinstance(results, dict):
+            return jsonify({"success": False, "message": results["message"]}), 404
+        return jsonify({"success": True, "data": results}), 200
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
 
 @app.route('/status', methods=['GET'])
 def get_status():
