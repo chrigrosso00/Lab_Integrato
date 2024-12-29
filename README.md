@@ -1,17 +1,28 @@
-<img src="https://miro.medium.com/v2/resize:fit:1093/1*wyt0vhfNT5oMx4ZWPn0IcQ.png" alt="Logo Java" style="width: 70%; height: 350px;">
+<div align="center">
+  <h1>Webapp Java Spring Boot</h1>
+</div>
+<div align="center">
+  <img src="https://miro.medium.com/v2/resize:fit:1093/1*wyt0vhfNT5oMx4ZWPn0IcQ.png" alt="Logo Java" style="width: 70%; height: 350px;">
+</div>
 
-# **Webapp java spring boot**
+---
 
-## 📋 **Indice**
-1. [Tecnologie Utilizzate](#tecnologie-utilizzate)
-2. [Struttura del Database](#struttura-del-database)
-3. [Struttura dei File](#struttura-dei-file)
-4. [JWT Authentication](#jwt-authentication)
-5. [Configurazione di Spring Security](#configurazione-di-spring-security)
-6. [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
-7. [SecurityContextHolder](#securitycontextholder)
+<div align="center">
+  <h1>📋 Indice</h1>
+</div>
 
-### Tecnologie Utilizzate
+1. [Tecnologie Utilizzate](#-tecnologie-utilizzate)  
+3. [Struttura dei File](#-struttura-dei-file)  
+4. [JWT Authentication](#-jwt-authentication)  
+5. [Configurazione di Spring Security](#-configurazione-di-spring-security)  
+6. [Role-Based Access Control (RBAC)](#-role-based-access-control-rbac)  
+7. [SecurityContextHolder](#-securitycontextholder)  
+
+---
+
+<div align="center">
+  <h1>💻 Tecnologie Utilizzate</h1>
+</div>
 
 - Back-end: Java 17, Spring Boot, Spring Security, Spring Data JPA
 - Database: MySQL
@@ -51,32 +62,9 @@ http://localhost:1111/swagger/index.html
 
 ---
 
-## **Struttura del Database**
-
-Le tabelle utilizzate per gestire utenti e ruoli sono le seguenti:
-
-**User**
-| Campo      | Tipo       | Descrizione               |
-|------------|------------|--------------------------|
-| id         | Long       | Identificatore unico      |
-| username   | String     | Nome utente   |
-| password   | String     | Password cifrata         |
-
-**Role**
-| Campo      | Tipo       | Descrizione               |
-|------------|------------|--------------------------|
-| id         | Long       | Identificatore unico      |
-| name       | String     | Nome del ruolo (es. `ROLE_ADMIN`, `ROLE_USER`) |
-
-**User_Role (Relazione Many-to-Many)**
-| Campo      | Tipo       | Descrizione                |
-|------------|------------|-------------------------- |
-| user_id    | Long       | Chiave esterna verso User |
-| role_id    | Long       | Chiave esterna verso Role |
-
----
-
-## **Struttura dei File**
+<div align="center">
+  <h1>📂 Struttura dei File</h1>
+</div>
 
 ```
 src/
@@ -104,7 +92,9 @@ src/
 
 ---
 
-## **JWT Authentication**
+<div align="center">
+  <h1>🔑 JWT Authentication</h1>
+</div>
 
 ### **Flusso del Token JWT**
 1. **Login**: L'utente invia username e password a `/api/login`.
@@ -146,7 +136,9 @@ Authorization: Bearer <token>
 
 ---
 
-## **Configurazione di Spring Security**
+<div align="center">
+  <h1>🔒 Configurazione di Spring Security</h1>
+</div>
 
 ### **SecurityConfig.java**
 
@@ -173,7 +165,9 @@ http
 
 ---
 
-## **Role-Based Access Control (RBAC)**
+<div align="center">
+  <h1>🔍 Role-Based Access Control (RBAC)</h1>
+</div>
 
 ### **Ruoli disponibili**
 - **ROLE_USER**: Ruolo base assegnato a tutti gli utenti.
@@ -212,7 +206,9 @@ Il payload include le seguenti informazioni:
 
 ---
 
-## **SecurityContextHolder**
+<div align="center">
+  <h1>📜 SecurityContextHolder</h1>
+</div>
 
 ### **Come accedere al SecurityContext**
 
