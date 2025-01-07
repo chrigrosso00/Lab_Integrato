@@ -79,6 +79,5 @@ public class MetabaseJwtUtil {
                 .signWith(key, SignatureAlgorithm.HS256) // Firma con HmacSHA256
                 .compact();
     }
-    
 
 }
