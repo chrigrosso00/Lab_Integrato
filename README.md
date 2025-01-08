@@ -1,190 +1,135 @@
-<div align="center">
-  <!-- Sostituisci questo link con il tuo banner o un'immagine rappresentativa del progetto -->
-  <img src="Lab Integrato.png" alt="Banner del Progetto" width="1000px">
-</div>
+<div align="center"><h1>Pipeline di Generazione Dati per il Settore Manifatturiero e Rilevamento Anomalie</h1></div>
 
-<!-- Badges: puoi personalizzarli con shields.io in base al tuo progetto e linguaggio -->
-<p align="center">
-  <img src="https://img.shields.io/badge/Java-11-orange" alt="Java 11">
-  <img src="https://img.shields.io/badge/Python-3.8-yellow.svg" alt="Python 3.1">
-  <img src="https://img.shields.io/badge/MySQL-8.0-blue.svg" alt="MySQL 8.0">
-  <img src="https://img.shields.io/badge/PostgreSQL-13-blue.svg" alt="PostgreSQL 13">
-</p>
+![Banner di Generazione Dati](https://learn.temporal.io/assets/images/banner_python-0d345d125b6892840c54f7e1460c8a5a.png)
 
-<div align="center">
-  <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi, ML e BI.</i>
-</div>
-
-<br/>
-
-## Indice
-1. [🔰 Introduzione](#-introduzione)  
-2. [🔨 Struttura del Sistema](#-struttura-del-sistema)  
-3. [⚙️ Flusso Complessivo](#-flusso-complessivo)  
-4. [📈 Vantaggi del Sistema](#-vantaggi-del-sistema)  
-5. [💾 Connessioni ai Database](#-connessioni-ai-database)  
-6. [🐍 ETL Python in Cloud](#-etl-python-in-cloud)
-
-## 🔰 Introduzione
-Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.  
-L'obiettivo principale è:
-- **Monitorare** i dati in tempo reale.
-- **Analizzare** le prestazioni e identificare anomalie o inefficienze.
-- **Generare previsioni** basate su dati storici, migliorando i processi decisionali aziendali.
-
-<div align="center">
-  <img src="workflow.drawio.png" alt="WorkFlow">
-</div>
-
-## 🔨 **Struttura del Sistema**
-- **Macchine (FORGIA e CNC):** Generano dati di produzione (es. temperature, anomalie, pezzi prodotti).
-- **Database:** Funziona come punto centrale di archiviazione dei dati.
-- **Power Automate:** Automatizza i flussi di dati e li trasferisce al sistema ETL.
-- **ETL:** Modella i dati prima di salvarli nei database.
-- **Power Apps:** Fornisce un'interfaccia per visualizzare i dati in tempo reale.
-- **Metabase:** Strumento BI per l'analisi e la visualizzazione dei dati.
-- **Python ML:** Addestra modelli di machine learning per previsioni.
-- **Java Web App:** Gestisce l'interazione con i dati e fornisce un'interfaccia per gli utenti.
+# **Indice dei Contenuti**  
+ 1. [Introduzione](#introduzione)  
+ 2. [Funzionalità Principali](#funzionalità-principali)  
+ 3. [Stack Tecnologico](#stack-tecnologico)  
+ 4. [Modello dei Dati](#modello-dei-dati)  
 
 ---
 
-## Descrizione del Flusso
+## Introduzione
 
-1. **Macchine (FORGIA e CNC)**:
-   - **Ruolo**: Generano dati di produzione relativi ai processi industriali, come temperature, numero di pezzi prodotti, errori e anomalie.
-   - **Dati generati**: Informazioni grezze che devono essere trasformate e archiviate.
+Questo repository contiene una **pipeline di generazione dati** ideata per simulare i processi di un'azienda manifatturiera. Lo scopo è **produrre dataset realistici** per:
 
-2. **Power Automate**:
-   - **Ruolo**: Automatizza la raccolta dei dati dalle macchine e li trasferisce al modulo ETL.
-   - **Funzionalità**: Garantisce che i dati vengano raccolti in modo continuo e affidabile.
+- **Clienti**, con profili di acquisto differenziati.  
+- **Macchinari**, con dati relativi a costi di acquisto e manutenzione.  
+- **Operatori**, con costi orari ed esperienze diversificate.  
+- **Tipi di Acciaio / Leghe** e **Pezzi** con specifiche tecniche.  
+- **Magazzino** per monitorare la disponibilità di materiale e i cicli di restoccaggio.  
+- **Ordini** e relative **righe d’ordine**, con stagionalità e tassi di crescita.  
+- **Operazioni** di produzione, incluse lavorazioni specifiche di **Forgiatura** e **CNC**.  
+- **Anomalie** collegate a macchinari e operazioni, per simulare malfunzionamenti reali.
 
-3. **ETL (Extract, Transform, Load)**:
-   - **Ruolo**: Modella i dati grezzi ricevuti da Power Automate, esegue trasformazioni per migliorare la qualità e li carica nei database di staging Postgre.
-   - **Modello dei dati**:
-     - **Database MySQL**: Usato per archiviare i dati relazionali, come registrazioni strutturate di operazioni e pezzi.
-     - **Database PostgreSQL**: Usato come database di staging per non appesantire il datadase di produzione (MySQL).
-
-4. **Power Apps**:
-   - **Ruolo**: Fornisce un'interfaccia utente per la visualizzazione in tempo reale dei dati raccolti e processati.
-   - **Esempi di utilizzo**: Monitoraggio delle prestazioni delle macchine e degli allarmi in tempo reale.
-
-5. **Metabase**:
-   - **Ruolo**: Dashboard interattiva e BI per analizzare i dati storici salvati nei database.
-   - **Funzionalità**: Permette di creare report dettagliati e grafici utili per prendere decisioni strategiche.
-
-6. **Python ML**:
-   - **Ruolo**: Elabora i dati storici per addestrare modelli di Machine Learning in grado di effettuare previsioni sulle operazioni future.
-   - **Esempi di previsioni**: Stima di tempi di lavorazione, identificazione di anomalie o manutenzioni predittive.
-
-7. **Java Web App**:
-   - **Ruolo**: Funziona come hub centrale per la gestione e la visualizzazione dei dati raccolti e per l'interazione con tutte le componenti del sistema.
-   - **Funzionalità**:
-     - Fornisce API per la gestione dei dati.
-     - Mostra una panoramica completa delle operazioni, delle previsioni e delle analisi.
+L’obiettivo è fornire dati ad **alto volume e varietà**, da utilizzare per analisi, test di algoritmi di machine learning o per simulare scenari industriali complessi.
 
 ---
 
-## ⚙️ Flusso Complessivo
+## Funzionalità Principali
 
-1. I dati generati dalle macchine (**FORGIA** e **CNC**) vengono raccolti automaticamente da **Power Automate**.
-2. Il modulo **ETL** processa e carica i dati nei database.
-3. Gli utenti possono accedere ai dati tramite:
-   - **Power Apps**, per il monitoraggio in tempo reale.
-   - **Java Web App**, per una panoramica completa e gestione delle operazioni.
-4. I dati storici vengono inviati al modulo **Python ML**, che addestra modelli per fornire previsioni utili per l'ottimizzazione del processo.
+1. **Tasso di Crescita & Stagionalità**  
+   - Imposta un fattore di crescita annuale (`GROWTH_RATE`) per il numero di ordini.  
+   - Applica **fattori di stagionalità** per simulare variazioni di domanda mensili (e.g. cali ad agosto).
 
----
+2. **Pattern Nascosti di Anomalia**  
+   - Verifica soglie di **temperatura**, **età della macchina** e **numero di operazioni consecutive**.  
+   - Aumenta la probabilità di anomalia in condizioni particolari (es. macchine vetuste).
 
-## 📈 Vantaggi del Sistema
+3. **Generazione di Ordini in Parallel**  
+   - Utilizza `ThreadPoolExecutor` per velocizzare la creazione degli ordini tra **2019** e **2025**.  
+   - Riduce sensibilmente il tempo di generazione per volumi di dati elevati.
 
-- **Automazione**: Riduce l'intervento manuale nei flussi di dati.
-- **Monitoraggio in tempo reale**: Identifica anomalie e inefficienze rapidamente.
-- **Analisi approfondita**: Permette di comprendere trend e ottimizzare le decisioni aziendali.
-- **Previsioni affidabili**: Modelli di Machine Learning aiutano a prevedere e prevenire problematiche operative.
+4. **Operazioni Avanzate (Enhanced)**  
+   - Calcolo di **timestamp inizio/fine**, **durata** e **costo** per ogni operazione.  
+   - Adjust dinamico della durata in base all’**età** e all’**uso** del macchinario.
 
-***
-
-# 💾 **Connessioni ai Database**
-
-<div align="center">
-  <img src="https://aiven.io/assets/img/aiven-logo.png" alt="Aiven logo" width="600px" height="150px">
-</div>
-
-<br>
-
-⚠️ **I database (MySQL e PostgreSQL) utilizzati in questo progetto sono interamente ospitati in cloud su Aiven. Grazie a questa soluzione, è possibile beneficiare di un’infrastruttura scalabile, sicura e completamente gestita, semplificando la manutenzione e il monitoraggio dei servizi.
-La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito di Aiven non si possono attivare più servizi che utilizzino lo stesso DBMS.**
-
-***
-
-<div align="center">
-  <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
-</div>
-
-## **Stringa connessione database MySQL (Produzione)**
-
-| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
-| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
-| **Produzione** | `defaultdb`  | `lab-integrato-nicola03-3bd5.f.aivencloud.com` | `16921` | `avnadmin` | `AVNS_frpyP32fGueJJfnhssZ` |
-
-## **Struttura Database**
-<details>
-  <summary>Mostra diagramma DML</summary>
-    <div align="center">
-      <img src="DML.drawio.png" alt="Logo MySQL">
-    </div>
-</details>
+5. **Output Multiplo in Formato CSV**  
+   - Produce diversi file CSV (`cliente.csv`, `ordine.csv`, `operazioni.csv`, ecc.), ognuno corrispondente a un’entità o relazione specifica.
 
 ---
 
-<div align="center">
-  <img src="https://www.lightcrest.com/wp-content/uploads/2019/04/postgresql-logo.png" alt="Logo postgreSQL">
-</div>
+## Stack Tecnologico
 
-## **Stringa connessione database PostgreSQL (Staging)**
-
-| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
-| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
-| **Staging**    | `defaultdb`  | `stagingdb-nicola03-3bd5.b.aivencloud.com`    | `16921` | `avnadmin` | `AVNS_d8E015YWPMvo61VuSsY` |
-
-## **Struttura Database**
-<details>
-  <summary>Mostra diagramma DML</summary>
-    <div align="center">
-      <img src="Raw_DML.drawio.png" alt="Logo MySQL">
-    </div>
-</details>
+| Tecnologia               | Descrizione                                                      |
+|--------------------------|------------------------------------------------------------------|
+| **Python 3.8+**          | Linguaggio di programmazione principale.                        |
+| **pandas**               | Utilizzato per gestire i DataFrame e l’export in CSV.           |
+| **numpy**                | Fornisce generatori casuali e funzioni di calcolo su array.     |
+| **faker**                | Genera nomi, indirizzi e testi fittizi e verosimili.            |
+| **concurrent.futures**   | Abilita l’elaborazione in parallelo (multithreading).           |
+| **cProfile** & **pstats**| Strumenti per profilare e analizzare le prestazioni del codice. |
 
 ---
-<div align="center">
-  <img src="https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png" alt="Logo Scalingo">
-</div>
 
-# 🐍 **ETL Python in Cloud**
+## Modello dei Dati
 
-L'applicazione è accessibile al seguente indirizzo:  
-**[ETL Project](https://pythonetl.osc-fr1.scalingo.io/)**  
+La seguente rappresentazione **semplificata** mostra le principali relazioni tra le tabelle generate dalla pipeline:
 
-### **API**
+```mermaid
+erDiagram
+    CLIENTI {
+        string id_cliente PK
+        string nome
+        string citta
+        string frequenza_acquisti
+    }
+    
+    ORDINE {
+        string id_ordine PK
+        string id_cliente FK
+        datetime data_inizio
+        datetime data_fine
+        int totale_pezzi
+        string stato
+    }
 
-1. **Run Script:**  
-   (https://pythonetl.osc-fr1.scalingo.io/run)  
-   Fa partire lo script Python per modellare tutti i dati dal database PostgreSQL e li salva su MySQL.  
+    PEZZI_ORDINE {
+        string id_ordine FK
+        string id_pezzo
+        int quantita_totale
+        int quantita_rimanente
+    }
 
-2. **Status:**  
-   (https://pythonetl.osc-fr1.scalingo.io/status)  
-   Restituisce i dati processati con successo.  
+    OPERAZIONI {
+        string id_operazione PK
+        string id_ordine FK
+        string codice_pezzo
+        string codice_macchinario FK
+        string codice_operatore FK
+        datetime timestamp_inizio
+        datetime timestamp_fine
+        int durata_min
+        float costo
+    }
 
-3. **Logs:**  
-   (https://pythonetl.osc-fr1.scalingo.io/logs)  
-   Mostra i log del progetto per monitorare le attività e diagnosticare eventuali problemi.  
+    FORGIATURA {
+        string id_forgiatura PK
+        string id_operazione FK
+        float peso_effettivo
+        int temperatura_effettiva
+        int id_anomalia FK
+    }
 
-   (https://pythonetl.osc-fr1.scalingo.io/log-cron)  
-   Mostra i log del progetto per monitorare le attività eseguite periodicamente.  
+    CNC {
+        string id_cnc PK
+        string id_operazione FK
+        int numero_pezzi_ora
+        string tipo_fermo
+    }
 
-   (https://pythonetl.osc-fr1.scalingo.io/clear-logs)  
-   Pulisce i file di log.  
+    ANOMALIA_OPERAZIONE {
+        int internal_id PK
+        int id_anomalia FK
+        string id_operazione FK
+        string note
+    }
 
-4. **Dati:**  
-   (https://pythonetl.osc-fr1.scalingo.io/data)  
-   Mostra le tabelle Forgiatura e dati_anomali del database MySQL e i dati registrati.
+    CLIENTI ||--|{ ORDINE : "effettua"
+    ORDINE ||--|{ PEZZI_ORDINE : "comprende"
+    ORDINE ||--|{ OPERAZIONI : "richiede"
+    OPERAZIONI ||--|{ FORGIATURA : "eventuale"
+    OPERAZIONI ||--|{ CNC : "eventuale"
+    FORGIATURA }|--|| ANOMALIA_OPERAZIONE : "può generare anomalia"
+    CNC }|--|| ANOMALIA_OPERAZIONE : "può generare anomalia"
