@@ -29,11 +29,11 @@ FROM OrderMetrics;
 SELECT 
     m.tipo as tipo_macchina,
     COUNT(o.id_operazione) as totale_operazioni,
-    AVG(TIMESTAMPDIFF(HOUR, o.timestamp_inizio, o.timestamp_fine)) as ore_medie_lavorazione,
-    MIN(TIMESTAMPDIFF(HOUR, o.timestamp_inizio, o.timestamp_fine)) as ore_min_lavorazione,
-    MAX(TIMESTAMPDIFF(HOUR, o.timestamp_inizio, o.timestamp_fine)) as ore_max_lavorazione
-FROM Operazioni o
-JOIN Macchinari m ON o.codice_macchinario = m.codice_macchinario
+    AVG(TIMESTAMPDIFF(SECOND, o.timestamp_inizio, o.timestamp_fine) / 3600) as ore_medie_lavorazione,
+    MIN(TIMESTAMPDIFF(SECOND, o.timestamp_inizio, o.timestamp_fine) / 3600) as ore_min_lavorazione,
+    MAX(TIMESTAMPDIFF(SECOND, o.timestamp_inizio, o.timestamp_fine) / 3600) as ore_max_lavorazione
+FROM operazioni o
+JOIN macchinari m ON o.codice_macchinario = m.codice_macchinario
 WHERE o.timestamp_fine IS NOT NULL
 GROUP BY m.tipo;
 ```
