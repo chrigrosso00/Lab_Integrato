@@ -105,3 +105,16 @@ document.getElementById('logoutBtn').addEventListener('click', function(event) {
         })
         .catch(error => displayMessage('Errore di rete: ' + error, 'error'));
     }
+
+
+//DASHBOARD CLIENTE METABASE
+
+fetch('/metabase/embed-url')
+    .then(response => response.text())
+    .then(iframeUrl => {
+        // Imposta l'URL nell'iframe
+        document.getElementById('metabaseIframe').src = iframeUrl;
+    })
+    .catch(err => {
+        console.error("Errore nel recupero dell'URL della dashboard:", err);
+    });
