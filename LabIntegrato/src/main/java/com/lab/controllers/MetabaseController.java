@@ -37,7 +37,7 @@ import com.lab.utils.MetabaseJwtUtil;
 public class MetabaseController{
     
     @GetMapping("/dashboard")
-    public ResponseEntity<Map<String, String>> getDashboardEmbedLink(@RequestParam Long dashboardId, @RequestParam(required = false) Long userId, @RequestParam(required = false) String status) {
+    public ResponseEntity<Map<String, String>> getDashboardEmbedLink(@RequestParam Long dashboardId, @RequestParam(required = false) Long userId , @RequestParam(required = false) String status) {
 
             if (dashboardId == null) {
                 return ResponseEntity.badRequest().body(Map.of("error", "DashboardId is required"));
