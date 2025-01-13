@@ -3,57 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/images/ico/user-check-solid.svg">
+
     <title>Login</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .form-container {
-            background-color: #ffffff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 400px;
-            margin: 2rem auto;
-        }
-        .form-title {
-            font-weight: bold;
-            color: #343a40;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .btn-custom {
-            background-color: #0d6efd;
-            color: #fff;
-        }
-        .btn-custom:hover {
-            background-color: #0b5ed7;
-            color: #fff;
-        }
-        #cliente {
-            display: none;
-        }
-        .message {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-        .message.success {
-            color: #28a745;
-        }
-        .message.error {
-            color: #dc3545;
-        }
-        
-    </style>
+
+    <!-- css personalizzato -->
+    <link rel="stylesheet" href="/login/styles/style.css">
+   
 </head>
 <body>
 
 <div class="container">
     <div class="form-container">
-        <h2 class="form-title">Login</h2>
+        <h2 class="form-title">Accedi</h2>
 
         <!-- Sezione per visualizzare i messaggi di errore o successo -->
         <div id="message" class="message"></div>
@@ -89,91 +53,8 @@
     </div>
 </div>
 
-<script>
-    const accountTypeSelect = document.getElementById('accountType');
-    accountTypeSelect.addEventListener('change', function() {
-        if (this.value === 'cliente') {
-            document.getElementById('cliente').style.display = 'block';
-            document.getElementById('user').style.display = 'none';
-            document.getElementById('partitaIVA').required = true;
-            document.getElementById('username').required = false;
-        } else {
-            document.getElementById('user').style.display = 'block';
-            document.getElementById('cliente').style.display = 'none';
-            document.getElementById('partitaIVA').required = false;
-            document.getElementById('username').required = true;
-        }
-    });
-
-    function submitLoginForm() {
-        const messageBox = document.getElementById('message');
-        messageBox.textContent = 'Login in corso...';
-
-        const accountType = document.getElementById('accountType').value;
-        const password = document.getElementById('password').value;
-
-        let formData = {
-            password: password,
-            accountType: accountType
-        };
-
-        if (accountType === 'cliente') {
-            formData.partitaIVA = document.getElementById('partitaIVA').value;
-        } else {
-            formData.username = document.getElementById('username').value;
-        }
-
-        const url = '/api/login';
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('jwtToken', data.token);
-                console.log('Token JWT:', localStorage.getItem('jwtToken'));
-                displayMessage('Login effettuato con successo!', 'success');
-                redirectWithToken('/public/cliente/dashboard', data.token);
-            } else {
-                displayMessage(data.error || 'Errore durante il login', 'error');
-            }
-        })
-        .catch(error => displayMessage('Errore di rete: ' + error, 'error'));
-    }
-
-    function displayMessage(message, type) {
-        const messageBox = document.getElementById('message');
-        messageBox.textContent = message;
-        messageBox.className = `message ${type}`;
-    }
+<script src="/login/script/script.js" type="text/javascript">
     
-    function redirectWithToken(url, token) {
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        })
-        .then(response => {
-            console.log('Status:', response.status);
-            if (response.ok) {
-                displayMessage('Accesso riuscito, reindirizzamento in corso...', 'success');
-                // Aspetta 5 secondi prima di eseguire il reindirizzamento
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 1000);
-            } else {
-                displayMessage('Errore di accesso alla pagina cliente/ordine', 'error');
-            }
-        })
-        .catch(error => displayMessage('Errore di rete: ' + error, 'error'));
-    }
-
 </script>
 
 </body>
