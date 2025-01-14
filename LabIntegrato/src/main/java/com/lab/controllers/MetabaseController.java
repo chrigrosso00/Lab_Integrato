@@ -64,7 +64,7 @@ public class MetabaseController {
         // Crea l'URL per l'iframe da utilizzare nel frontend
         // https://its.metabaseapp.com/dashboard/11-dashboard-cliente?user_id=
         // https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa
-        String iframeUrl = "https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa?user_id=" + userId + "#background=false&bordered=false&titled=true";
+        String iframeUrl = "https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa?user_id=" + userId + "#background=false&bordered=false&titled=false";
         
         System.out.println(iframeUrl);
         
