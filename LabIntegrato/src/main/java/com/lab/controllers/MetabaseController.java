@@ -49,7 +49,7 @@ public class MetabaseController {
 
     @GetMapping("/embed-url")
     public ResponseEntity<String> getEmbedUrl(@RequestHeader("Authorization") String authorizationHeader) {
-        Long dashboardId = 73L;  // ID della dashboard Metabase
+        Long dashboardId = 11L;  // ID della dashboard Metabase
         String tokenUser = authorizationHeader.replace("Bearer ", "");
         
         // Estrai l'id del cliente dal token JWT
@@ -63,6 +63,9 @@ public class MetabaseController {
 
         // Crea l'URL per l'iframe da utilizzare nel frontend
         String iframeUrl = "http://localhost:3000/embed/dashboard/" + token + "?user_id=" + userId + "#background=false&bordered=false&titled=true";
+        
+        System.out.println(iframeUrl);
+        
         return ResponseEntity.ok().body(iframeUrl);
     }
 }
