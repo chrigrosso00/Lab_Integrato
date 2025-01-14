@@ -371,51 +371,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
-
-  <script>
-
-    const ctx = document.getElementById('chart-ordini').getContext('2d');
-
-    const datiOrdini = {
-      labels: ['Completati', 'In Attesa', 'Annullati'],
-      datasets: [{
-        label: 'Distribuzione Ordini',
-        data: [40, 30, 20],
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(255, 99, 132, 0.2)'
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(255, 99, 132, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
-
-    const opzioniGrafico = {
-      responsive: true,             // Reattivo
-      maintainAspectRatio: false,  // Mantiene il rapporto larghezza/altezza
-      aspectRatio: 2,              // Rapporto larghezza/altezza (2:1)
-      plugins: {
-        legend: { display: true, position: 'top' },
-        tooltip: { enabled: true }
-      },
-      scales: {
-        y: { beginAtZero: true } // L'asse Y parte da zero
-      }
-    };
-
-    const chartOrdini = new Chart(ctx, {
-      type: 'bar',
-      data: datiOrdini,
-      options: opzioniGrafico
-    });
-
-  </script>
-
+  
 </body>
 
 </html>
