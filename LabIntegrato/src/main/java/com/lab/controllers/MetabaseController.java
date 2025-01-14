@@ -2,12 +2,15 @@ package com.lab.controllers;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lab.services.MetabaseJwtService;
+import com.lab.utils.JwtUtil;
 
 //base FUNZIONA
 
@@ -40,11 +43,17 @@ public class MetabaseController {
     public MetabaseController(MetabaseJwtService jwtTokenService) {
         this.jwtTokenService = jwtTokenService;
     }
+    
+    @Autowired
+	private JwtUtil jwtUtil;
 
     @GetMapping("/embed-url")
-    public ResponseEntity<String> getEmbedUrl() {
+    public ResponseEntity<String> getEmbedUrl(@RequestHeader("Authorization") String authorizationHeader) {
         Long dashboardId = 73L;  // ID della dashboard Metabase
-        Long userId = 12L;       // L'userId associato alla sessione dell'utente
+        String tokenUser = authorizationHeader.replace("Bearer ", "");
+        
+        // Estrai l'id del cliente dal token JWT
+        Long userId = jwtUtil.extractId(tokenUser);     // L'userId associato alla sessione dell'utente
         
         // Parametri di esempio per l'embed
         Map<String, Object> params = Map.of();

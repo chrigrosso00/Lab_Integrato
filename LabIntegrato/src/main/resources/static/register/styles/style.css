@@ -1,0 +1,135 @@
+/* Stile per centrare il form */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7f7f7;
+}
+
+/* Contenitore del form */
+.registration-form {
+    background-color: #ffffff;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6); 
+    width: 400px;
+    padding: 25px;
+    border-radius: 8px; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+}
+
+/* Titolo del form */
+.registration-form h2 {
+    font-size: 28px; 
+    font-weight: 800;
+    text-align: center;
+    color: #333333;
+    margin-bottom: 15px;
+}
+
+/* Select (dropdown) */
+#accountType {
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    height: 45px;
+    border: 1.5px solid #ecedec;
+    background: transparent;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #000;
+    margin-top: 10px;
+    transition: all 0.3s ease; 
+}
+
+/* Select in focus */
+#accountType:focus {
+    border: 1.5px solid #000;
+}
+
+/* Form group */
+.form-group {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; 
+}
+
+/* Label posizionato sopra l'input */
+.form-group label {
+    font-size: 16px; 
+    color: #333333;
+    margin-bottom: 5px; 
+    position: static; 
+}
+
+/* Input di testo e password */
+.form-group input {
+    width: 100%;
+    outline: none;
+    border-radius: 8px;
+    height: 45px; 
+    border: 1.5px solid #ecedec;
+    background: transparent;
+    padding-left: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease; 
+}
+
+/* Input in focus */
+.form-group input:focus {
+    border: 1.5px solid #000;
+}
+
+
+/* Pulsante di invio */
+.registration-form button {
+    width: 100%; 
+    margin-top: 35px;
+    height: 55px; 
+    background: linear-gradient(180deg, #363636 0%, #1b1b1b 50%, #000000 100%);
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+    cursor: pointer;
+}
+
+
+/* Hover del pulsante */
+.registration-form button:hover {
+    box-shadow: 0px 0px 0px 2px #ffffff, 0px 0px 0px 4px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+}
+
+/* Campi nascosti */
+.hidden-fields {
+    display: none;
+}
+
+/* Messaggi di errore e successo */
+.message {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: rgb(60, 111, 253);
+}
+
+.message.success {
+    color: #28a745;
+}
+
+.message.error {
+    color: #dc3545;
+}
+
