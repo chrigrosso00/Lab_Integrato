@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class MetabaseJwtUtil {
 
-    private static final String METABASE_SECRET_KEY = "f747f6709863374827e64617f3d3e63ab8326aa1da4f09c29b694b3e723351e3";
+    private static final String METABASE_SECRET_KEY = "b24d940ff7d6dec79c088e9e802b3f4c1eb31c7ecd255841f55f5a9925446ae0";
 
     public static String generateEmbedToken(Long dashboardId, Map<String, Object> params) {
         long now = System.currentTimeMillis();
