@@ -108,7 +108,13 @@ document.getElementById('logoutBtn').addEventListener('click', function(event) {
 
 //DASHBOARD CLIENTE METABASE
 
-fetch('/metabase/embed-url')
+const token = localStorage.getItem('jwtToken');
+
+fetch('/metabase/embed-url', {
+    headers: {
+        'Authorization': 'Bearer ' + token
+    }
+	})
     .then(response => response.text())
     .then(iframeUrl => {
         // Imposta l'URL nell'iframe
@@ -118,3 +124,4 @@ fetch('/metabase/embed-url')
     .catch(err => {
         console.error("Errore nel recupero dell'URL della dashboard:", err);
     });
+
