@@ -5,81 +5,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="/images/ico/gauge-high-solid.svg">
-
   <title>Dashboard Personale</title>
-
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-
   <!-- AdminLTE CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-
   <!-- CSS personalizzato -->
   <link rel="stylesheet" href="/dashboardCliente/styles/styles.css">
-
   <!-- SweetAler2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-
     <!-- Main Sidebar Container -->
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <aside class="main-sidebar sidebar-dark-primary">
       <!-- Brand Logo -->
-      <a href="#" class="brand-link">
-        <!-- <img src="https://via.placeholder.com/160" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8"> -->
-        <img src="\images\ico\circle-user-solid.svg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
-        <span class="brand-text font-weight-light">Salve</span>
+      <a href="/public/cliente/dashboard" class="brand-link">
+        <img src="\images\ico\gauge-high-solid-w.svg" class="brand-image">
+        <span class="brand-text font-weight-bold">Dashboard</span>
       </a>
-
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div class="sidebar" >  <!-- d-flex flex-column justify-content-between -->
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" >
             <!-- Bottone Nuovo Ordine -->
-            <li class="nav-item">
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')">
-                <i class="nav-icon fas fa-plus-circle"></i>
-                <p>Nuovo Ordine</p>
+            <li class="nav-item" >
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')" style="color: white;">
+                <i class="nav-icon fas fa-plus-circle" style="color: white;"></i>
+                <p  style="color: white;">Nuovo Ordine</p>
               </button>
             </li>
-
             <!-- Bottone Storico Ordini -->
             <li class="nav-item">
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/storico/ordine')">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/storico/ordine')" style="color: white;">
                 <i class="nav-icon fas fa-history"></i>
                 <p>Storico Ordini</p>
               </button>
             </li>
-
+          </ul>
+        </nav>
+        <!-- Pulsanti in basso -->
+        <div class="mt-auto mb-3">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <!-- Bottone Tema -->
             <li class="nav-item">
-              <button class="btn btn-link nav-link" id="logoutBtn">
+              <button class="btn btn-link nav-link" id="themeBtn" onclick="toggleTheme()" >
+                <i class="fas fa-moon" id="themeIcon" ></i>
+                <p >Tema</p>
+              </button>
+            </li>
+            <!-- Bottone Logout -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" id="logoutBtn" style="color: white;">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Logout</p>
               </button>
             </li>
-            
-
-
-<button class="Btn" id="themeBtn">
-        <i class="fas fa-moon" id="themeIcon"></i>
-        <div class="text">Tema</div>
-      </button>
           </ul>
-        </nav>
-
-        
-        
-        <!-- /.sidebar-menu -->
+        </div>
       </div>
-      
-      <!-- /.sidebar -->
     </aside>
+    
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -102,7 +90,6 @@
                     class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-
             <!-- Statistica 2 -->
             <div class="col-lg-3 col-6">
               <div class="small-box bg-success">
@@ -117,7 +104,6 @@
                     class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-
             <!-- Statistica 3 -->
             <div class="col-lg-3 col-6">
               <div class="small-box bg-warning">
@@ -132,7 +118,6 @@
                     class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-
             <!-- Statistica 4 -->
             <div class="col-lg-3 col-6">
               <div class="small-box bg-danger">
@@ -159,8 +144,8 @@
 
           <h3>I tuoi ordini</h3>
           <iframe id="metabaseIframe"
-            src="https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa" frameborder="0"
-            width="100%" height="900px" allowtransparency></iframe>
+            src="https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa#background=false&bordered=false&titled=false"
+            width="100%" height="900px" frameborder="0" allowtransparency="true"></iframe>
           <!-- sandbox="allow-scripts=false allow-forms=false" -->
           <!-- <canvas id="chart-ordini" style="max-width: 600px; height: 300px;"></canvas> -->
 
@@ -245,7 +230,7 @@
   <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
 
-  
+
 </body>
 
 </html>
