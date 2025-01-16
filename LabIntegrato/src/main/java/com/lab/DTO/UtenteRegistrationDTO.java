@@ -7,8 +7,6 @@ public class UtenteRegistrationDTO {
 
 //	@NotBlank(message = "Username non può essere vuoto")
     private String username;
-
-
 	@NotBlank(message = "La password è obbligatoria")
     @Size(min = 8, message = "La password deve essere di almeno 8 caratteri")
     @jakarta.validation.constraints.Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", 
