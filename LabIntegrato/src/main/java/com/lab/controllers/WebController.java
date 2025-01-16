@@ -28,6 +28,11 @@ public class WebController {
         return "dashboardCliente";
     }
     
+    @GetMapping("/admin/dashboard")
+    public String mostraDashboardAdmin() {
+        return "dashboardAdmin";
+    }
+    
     @GetMapping("/cliente/crea/ordine")
     public String mostraFormOrdine() {
         return "creaOrdine";
