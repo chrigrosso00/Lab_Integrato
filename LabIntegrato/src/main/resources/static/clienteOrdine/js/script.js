@@ -357,7 +357,7 @@ document.getElementById('logoutBtn').addEventListener('click', function(event) {
 	                timer: 2500 // L'alert scomparirà automaticamente dopo 2 secondi
 	            }).then(() => {
 	                // Reindirizza alla pagina personale dopo la conferma
-	                window.location.assign("paginaPersonale");
+	                window.location.replace("paginaPersonale");
 	            });
 	        } catch (error) {
 	            // Se c'è stato un errore, mostralo con un alert
