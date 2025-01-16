@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,197 +18,85 @@
   <!-- SweetAler2 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
-  
-    <header class="p-3 text-bg-dark">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
-    
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-              <li><a href="#" class="nav-link px-2 text-white">About</a></li>
-            </ul>
-
-            <div class="nav ms-auto" id="btn-util">
-              <button class="Btn" id="themeBtn">
-                <i class="fas fa-moon" id="themeIcon"></i>
-                <div class="text">Tema</div>
-              </button>
-              <button class="Btn" id="logoutBtn">
-                <div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div>
-                <div class="text">Logout</div>
-              </button>
-              
-              <nav class="main-header navbar navbar-expand navbar-dark bg-dark">
-      <!-- Right navbar links (esempio notifiche e messaggi) -->
-      <ul class="navbar-nav ml-auto">
-        <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-comments"></i>
-            <span class="badge badge-danger navbar-badge">3</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="https://via.placeholder.com/128" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Brad Diesel
-                    <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">Call me whenever you can...</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="https://via.placeholder.com/128" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    John Pierce
-                    <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">I got your message bro</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <!-- Message Start -->
-              <div class="media">
-                <img src="https://via.placeholder.com/128" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                <div class="media-body">
-                  <h3 class="dropdown-item-title">
-                    Nora Silvester
-                    <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                  </h3>
-                  <p class="text-sm">The subject goes here</p>
-                  <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                </div>
-              </div>
-              <!-- Message End -->
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-          </div>
-        </li>
-        
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="far fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-        
-        <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-            <i class="fas fa-th-large"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <!-- /.navbar -->
-            </div>
-          </div>
-        </div>
-    </header> 
-  
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="#" class="brand-link">
         <img src="https://via.placeholder.com/160" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8">
+          style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
       </a>
-  
-    <!-- Sidebar -->
-    <div class="sidebar">  
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-          
-          <!-- Bottone Nuovo Ordine -->
-          <li class="nav-item">
-		    <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')">
-		        <i class="nav-icon fas fa-plus-circle"></i>
-		        <p>Nuovo Ordine</p>
-		    </button>
-		  </li>
 
-          <!-- Bottone Dashboard -->
-			<li class="nav-item">
-			  <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/dashboard')">
-			      <i class="nav-icon fas fa-tachometer-alt"></i>
-			      <p>Dashboard</p>
-			  </button>
-			</li>
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
 
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
+            <!-- Bottone Nuovo Ordine -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')">
+                <i class="nav-icon fas fa-plus-circle"></i>
+                <p>Nuovo Ordine</p>
+              </button>
+            </li>
+
+            <!-- Bottone Dashboard -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/dashboard')">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Dashboard</p>
+              </button>
+            </li>
+
+          </ul>
+        </nav>
+
+        <div class="mt-auto mb-3">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <!-- Bottone Tema -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" id="themeBtn" onclick="toggleTheme()">
+                <i class="fas fa-moon" id="themeIcon"></i>
+                <p>Tema</p>
+              </button>
+            </li>
+            <!-- Bottone Logout -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" id="logoutBtn" style="color: white;">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
     </aside>
- 
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-    	<div class="tabs-container">
-		    <div class="tabs">
-		        <input type="radio" id="radio-1" name="tabs" value="recent" checked>
-		        <label class="tab" for="radio-1">Più recenti</label>
-		        <input type="radio" id="radio-2" name="tabs" value="oldest">
-		        <label class="tab" for="radio-2">Più vecchi</label>
-		        <span class="glider"></span>
-		    </div>
-		</div>
+      <div class="tabs-container">
+        <div class="tabs">
+          <input type="radio" id="radio-1" name="tabs" value="recent" checked>
+          <label class="tab" for="radio-1">Più recenti</label>
+          <input type="radio" id="radio-2" name="tabs" value="oldest">
+          <label class="tab" for="radio-2">Più vecchi</label>
+          <span class="glider"></span>
+        </div>
+      </div>
       <div id="orders-container"></div>
-	  <button id="load-more-btn" class="btn btn-primary mt-3">Carica altri</button>
+      <button id="load-more-btn" class="btn btn-primary mt-3">Carica altri</button>
     </div>
+    <!-- Content Wrapper. Contains page content -->
+    
     <!-- /.content-wrapper -->
-  
+
     <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Contenuto della sidebar di controllo opzionale -->
-    </aside>
     <!-- /.control-sidebar -->
-  
+
     <!-- Main Footer -->
     <footer class="main-footer">
       <strong>Copyright &copy; 2024 <a href="#">La Tua Azienda</a>.</strong>
@@ -215,40 +104,60 @@
       <div class="float-right d-none d-sm-inline-block">
         <b>Versione</b> 3.1.0
         <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-            <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center show" id="bd-theme" type="button" aria-expanded="true" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
-              <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-              <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow show" aria-labelledby="bd-theme-text" style="position: absolute; inset: auto 0px 0px auto; margin: 0px; transform: translate(0px, -44px);" data-popper-placement="top-end">
-              <li>
-                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-                  <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-                  Light
-                  <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-              </li>
-              <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                  <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
-                  Dark
-                  <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-              </li>
-              <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                  <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
-                  Auto
-                  <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-              </li>
-            </ul>
-          </div>
+          <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center show" id="bd-theme"
+            type="button" aria-expanded="true" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
+            <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
+              <use href="#sun-fill"></use>
+            </svg>
+            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow show" aria-labelledby="bd-theme-text"
+            style="position: absolute; inset: auto 0px 0px auto; margin: 0px; transform: translate(0px, -44px);"
+            data-popper-placement="top-end">
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light"
+                aria-pressed="true">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#sun-fill"></use>
+                </svg>
+                Light
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
+                aria-pressed="false">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#moon-stars-fill"></use>
+                </svg>
+                Dark
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto"
+                aria-pressed="false">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#circle-half"></use>
+                </svg>
+                Auto
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
       <div id="message" class="message"></div>
     </footer>
   </div>
   <!-- ./wrapper -->
-  
+
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -258,7 +167,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/storicoOrdiniCliente/js/script.js"></script>
   <script>
-    document.getElementById('logoutBtn').addEventListener('click', function(event) {
+    document.getElementById('logoutBtn').addEventListener('click', function (event) {
       event.preventDefault();
       Swal.fire({
         title: 'Sei sicuro di voler uscire?',
@@ -298,39 +207,40 @@
         localStorage.setItem('theme', 'light');
       }
     });
-    
+
     function displayMessage(message, type) {
-        const messageBox = document.getElementById('message');
-        messageBox.textContent = message;
-        messageBox.className = `message ${type}`;
+      const messageBox = document.getElementById('message');
+      messageBox.textContent = message;
+      messageBox.className = `message ${type}`;
     }
- 
+
     function redirectWithToken(url) {
-    	const token = localStorage.getItem('jwtToken');
-        if (!token) {
-            throw new Error('Token non trovato. Autenticazione richiesta.');
+      const token = localStorage.getItem('jwtToken');
+      if (!token) {
+        throw new Error('Token non trovato. Autenticazione richiesta.');
+      }
+      fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Bearer ' + token
         }
-        fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        })
+      })
         .then(response => {
-            console.log('Status:', response.status);
-            if (response.ok) {
-                displayMessage('Accesso riuscito, reindirizzamento in corso...', 'success');
-                // Aspetta 5 secondi prima di eseguire il reindirizzamento
-                setTimeout(() => {
-                    window.location.href = url;
-                }, 1000);
-            } else {
-                displayMessage('Errore di accesso alla pagina cliente/ordine', 'error');
-            }
+          console.log('Status:', response.status);
+          if (response.ok) {
+            displayMessage('Accesso riuscito, reindirizzamento in corso...', 'success');
+            // Aspetta 5 secondi prima di eseguire il reindirizzamento
+            setTimeout(() => {
+              window.location.href = url;
+            }, 1000);
+          } else {
+            displayMessage('Errore di accesso alla pagina cliente/ordine', 'error');
+          }
         })
         .catch(error => displayMessage('Errore di rete: ' + error, 'error'));
     }
-  </script>  
+  </script>
 
 </body>
+
 </html>
