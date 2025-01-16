@@ -14,7 +14,7 @@
 </head>
 
 <body>
-
+<!-- PROBLEMA SICUREZZA DA CONTROLLARE -->
     <div class="registration-form">
         <h2>Registrati</h2>
 
@@ -54,7 +54,10 @@
             <!-- Password -->
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+                <input type="password" id="password" name="password" placeholder="Inserisci la tua password"
+                    minlength="8" pattern="(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*(),.?':{}|<>])(?=.*[a-z]).{8,}"
+                    title="La password deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola, un numero e un carattere speciale"
+                    required>
             </div>
 
             <!-- Pulsante di invio -->
@@ -63,7 +66,7 @@
     </div>
 
     <script src="/register/script/script.js" type="text/javascript">
-        
+
     </script>
 
 </body>
