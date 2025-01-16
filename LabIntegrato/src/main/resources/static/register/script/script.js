@@ -82,6 +82,9 @@ accountTypeSelect.addEventListener('change', function () {
         document.getElementById('partitaIVA').required = true;
 
 
+
+
+
     } else {
         clienteFields.style.display = 'none';
         userFields.style.display = 'block';
@@ -134,10 +137,7 @@ accountTypeSelect.addEventListener('change', function () {
 // }
 
 function validForm(form) {
-    if (!form.username || form.username.trim() === "") {
-        alert("Inserisci un username");
-        return false;
-    }
+
 
     if (!form.password || form.password.trim() === "") {
         alert("Inserisci una password valida senza spazi");
