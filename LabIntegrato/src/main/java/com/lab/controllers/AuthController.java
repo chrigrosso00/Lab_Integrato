@@ -66,32 +66,37 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> registraUtente(@RequestBody @Valid UtenteRegistrationDTO utenteDto) {
         Map<String, String> errorResponse = new HashMap<>();
         try {
-            if(utenteDto.getUsername() == null || utenteDto.getUsername().isEmpty() || utenteDto.getUsername().equals("")) {
-                for(int i=0;i<utenteDto.getUsername().length();i++) {
-                    if(utenteDto.getUsername().charAt(i) == ' ') {
-                        throw new IllegalArgumentException("Username non può contenere spazi");
-                    }
-                }
-                throw new IllegalArgumentException("Username non può essere vuoto o non può contenere spazi");
-            }
-            else if (userRepository.findByUsername(utenteDto.getUsername()).isPresent()){
-                throw new IllegalArgumentException("Username già in uso");
-            }
+//            if(utenteDto.getUsername() == null || utenteDto.getUsername().isEmpty() || utenteDto.getUsername().equals("")) {
+//                for(int i=0;i<utenteDto.getUsername().length();i++) {
+//                    if(utenteDto.getUsername().charAt(i) == ' ') {
+//                        throw new IllegalArgumentException("Username non può contenere spazi");
+//                    }
+//                }
+//                throw new IllegalArgumentException("Username non può essere vuoto o non può contenere spazi");
+//            }
+//            else if (userRepository.findByUsername(utenteDto.getUsername()).isPresent()){
+//                throw new IllegalArgumentException("Username già in uso");
+//            }
 
-            if(utenteDto.getPassword() == null || utenteDto.getPassword().isEmpty() || utenteDto.getPassword().equals("")) {
-                for(int i=0;i<utenteDto.getPassword().length();i++) {
-                    if(utenteDto.getPassword().charAt(i) == ' ') {
-                        throw new IllegalArgumentException("Password non può contenere spazi");
-                    }
-                throw new IllegalArgumentException("Password non può essere vuota");
-            }}
+//            if(utenteDto.getPassword() == null || utenteDto.getPassword().isEmpty() || utenteDto.getPassword().equals("")) {
+//                for(int i=0;i<utenteDto.getPassword().length();i++) {
+//                    if(utenteDto.getPassword().charAt(i) == ' ') {
+//                        throw new IllegalArgumentException("Password non può contenere spazi");
+//                    }
+//                throw new IllegalArgumentException("Password non può essere vuota");
+//            }}
 
             if ("cliente".equals(utenteDto.getAccountType())) {
-                // Verifica e salva i dati aggiuntivi per il cliente
-                clienteService.registraCliente(utenteDto);
+                if(clienteDAO.findByPartitaIva(utenteDto.getPartitaIVA()).isPresent()){
+                    throw new BadCredentialsException("Partita Iva :" + utenteDto.getPartitaIVA() + "già registrata");
+                }
+                    clienteService.registraCliente(utenteDto);
+
             } else {
-                // Registra un normale utente
-            	userService.registraUtente(utenteDto);
+                if(userRepository.findByUsername(utenteDto.getUsername()).isPresent()) {
+                   throw new BadCredentialsException("Username: " + utenteDto.getUsername() + "già registrato");
+                }
+                    userService.registraUtente(utenteDto);
             }
             Map<String, String> successResponse = new HashMap<>();
             successResponse.put("message", "Registrazione avvenuta con successo!");

@@ -5,10 +5,10 @@ import jakarta.validation.constraints.Size;
 
 public class UtenteRegistrationDTO {
 
-	@NotBlank(message = "Username non può essere vuoto")
+//	@NotBlank(message = "Username non può essere vuoto")
     private String username;
 
-	@Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
+
 	@NotBlank(message = "La password è obbligatoria")
     @Size(min = 8, message = "La password deve essere di almeno 8 caratteri")
     @jakarta.validation.constraints.Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$", 
@@ -17,11 +17,10 @@ public class UtenteRegistrationDTO {
 
     private String accountType;
 
-	@NotBlank(message = "Nome obbligatorio")
+
     private String nome;
 
-	@NotBlank(message = "Partita IVA è obbligatoria")
-	@Size(min = 11, max = 11, message = "Partita IVA deve essere di 11 caratteri")
+
     private String partitaIVA;
     
 	public String getUsername() {

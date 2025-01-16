@@ -75,18 +75,18 @@ const clienteFields = document.getElementById('clienteFields');
 // Funzione per mostrare/nascondere i campi extra per il Cliente
 accountTypeSelect.addEventListener('change', function () {
     if (this.value === 'cliente') {
+        userFields.style.display = 'none';
         clienteFields.style.display = 'block';
         document.getElementById('password').required = true;
         document.getElementById('nome').required = true;
         document.getElementById('partitaIVA').required = true;
-        userFields.style.display = 'none';
-        document.getElementById('username').required = true;
+
+
     } else {
+        clienteFields.style.display = 'none';
         userFields.style.display = 'block';
         document.getElementById('password').required = true;
-        clienteFields.style.display = 'none';
-        document.getElementById('nome').required = true;
-        document.getElementById('partitaIVA').required = true;
+        document.getElementById('username').required = true;
     }
 });
 
