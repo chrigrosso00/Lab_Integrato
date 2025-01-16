@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,8 @@ import com.lab.services.UserService;
 import com.lab.utils.JwtUtil;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api")
@@ -161,6 +164,26 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenziali non valide"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Errore interno al server"));
+        }
+    }
+    
+    @GetMapping("/redirect")
+    public ResponseEntity<String> redirectUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        List<String> roles = jwtUtil.extractRoles(token);
+
+        // Controlla se i ruoli sono validi
+        if (roles == null || roles.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accesso negato");
+        }
+
+        // Determina il percorso in base ai ruoli
+        if (roles.contains("ROLE_ADMIN")) {
+            return ResponseEntity.ok("/public/admin/dashboard");
+        } else if (roles.contains("ROLE_CLIENTE")) {
+            return ResponseEntity.ok("/public/cliente/dashboard");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ruolo non supportato");
         }
     }
 
