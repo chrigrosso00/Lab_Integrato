@@ -6,83 +6,100 @@ body {
 
 /* Aggiusta la sezione principale */
 .content-wrapper {
-    margin-left: 250px; /* Larghezza della sidebar */
-    margin-top: 70px;   /* Altezza dell'header */
-    padding: 1.5rem;    /* Spaziatura interna per il contenuto */
-    box-sizing: border-box;
-    background-color: #f8f9fa; /* Sfondo chiaro */
+  margin-left: 250px;
+  /* Larghezza della sidebar */
+  margin-top: 0px;
+  /* Altezza dell'header */
+  padding: 1.5rem;
+  /* Spaziatura interna per il contenuto */
+  box-sizing: border-box;
+  background-color: #f8f9fa;
+  /* Sfondo chiaro */
 }
 
 h1 {
-    margin-bottom: 1rem; /* Spaziatura sotto il titolo */
-    color: #333; /* Colore visibile */
-    font-size: 2rem;
-    font-weight: 600;
+  margin-bottom: 1rem;
+  /* Spaziatura sotto il titolo */
+  color: #333;
+  /* Colore visibile */
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 /* Riduzione margine e adattamento a schermi piccoli */
 @media (max-width: 768px) {
-    .content-wrapper {
-        margin-left: 0; /* Rimuove la sidebar su schermi piccoli */
-        margin-top: 60px; /* Altezza header ridotta */
-        padding: 1rem;
-    }
+  .content-wrapper {
+    margin-left: 0;
+    /* Rimuove la sidebar su schermi piccoli */
+    margin-top: 0px;
+    /* Altezza header ridotta */
+    padding: 1rem;
+  }
 }
 
 
 header {
-    background-color: #343a40;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    position: fixed; /* Header fisso */
-    top: 0;
-    left: 250px; /* Dopo la sidebar */
-    width: calc(100% - 250px); /* Rimanente spazio */
-    z-index: 900; /* Leggermente sotto la sidebar */
+  background-color: #343a40;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  position: fixed;
+  /* Header fisso */
+  top: 0;
+  left: 250px;
+  /* Dopo la sidebar */
+  width: calc(100% - 250px);
+  /* Rimanente spazio */
+  z-index: 900;
+  /* Leggermente sotto la sidebar */
 }
 
-header h1, 
+header h1,
 header nav {
-    flex: 1;
-    text-align: center;
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+
 }
 
 header nav ul {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  color: #f8f9fa;
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 header nav ul li {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 header nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-    transition: background 0.3s;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px;
+  transition: background 0.3s;
+  font-weight: bold;
 }
 
 header nav ul li a:hover {
-    background-color: #007bff;
-    border-radius: 5px;
+  background-color: #007bff;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {
-    header {
-        flex-direction: column
-    }
+  header {
+    flex-direction: column
+  }
 
-    header nav ul {
-        flex-direction: column;
-    }
+  header nav ul {
+    flex-direction: column;
+  }
 
-    header nav ul li {
-        margin: 5px 0;
-    }
+  header nav ul li {
+    margin: 5px 0;
+  }
 }
 
 .card {
@@ -100,9 +117,10 @@ header nav ul li a:hover {
 nav ul {
   display: flex;
   list-style: none;
-  background-color: #555;
   padding: 0;
   margin: 0;
+    color: #f8f9fa;
+
 }
 
 nav ul li {
@@ -138,10 +156,12 @@ footer {
   padding: 1rem;
   background-color: #333;
   color: #fff;
-  position: fixed; /* Mantiene il footer fisso */
+  position: fixed;
+  /* Mantiene il footer fisso */
   bottom: 0;
   width: 100%;
-  z-index: 999; /* Assicura che sia sopra altri contenuti */
+  z-index: 999;
+  /* Assicura che sia sopra altri contenuti */
 }
 
 body.dark-mode {
@@ -154,7 +174,8 @@ body.dark-mode .card {
   color: #f8f9fa;
 }
 
-body.dark-mode .navbar, body.dark-mode .main-header {
+body.dark-mode .navbar,
+body.dark-mode .main-header {
   background-color: #212529;
 }
 
@@ -194,6 +215,7 @@ body.dark-mode .sidebar {
 .sign svg path {
   fill: white;
 }
+
 /* text */
 .text {
   position: absolute;
@@ -217,6 +239,7 @@ body.dark-mode .sidebar {
   transition-duration: .3s;
   padding-left: 20px;
 }
+
 /* hover effect button's text */
 .Btn:hover .text {
   opacity: 1;
@@ -224,33 +247,41 @@ body.dark-mode .sidebar {
   transition-duration: .3s;
   padding-right: 10px;
 }
+
 /* button click effect*/
 .Btn:active {
-  transform: translate(2px ,2px);
+  transform: translate(2px, 2px);
 }
 
 /* Stile specifico per il bottone del tema */
 #themeBtn {
-  background-color: #f8f9fa; /* Sfondo chiaro di default */
-  color: #000; /* Testo nero di default */
+  background-color: #f8f9fa;
+  /* Sfondo chiaro di default */
+  color: #000;
+  /* Testo nero di default */
 }
 
 body.dark-mode #themeBtn {
-  background-color: #333; /* Sfondo scuro in modalità scura */
-  color: #fff; /* Testo bianco in modalità scura */
+  background-color: #333;
+  /* Sfondo scuro in modalità scura */
+  color: #fff;
+  /* Testo bianco in modalità scura */
 }
 
 /* Cambia solo il testo e l'icona del bottone tema */
 #themeBtn .text {
-  color: inherit; /* Il colore del testo si adatta allo sfondo */
+  color: inherit;
+  /* Il colore del testo si adatta allo sfondo */
 }
 
 #themeBtn:hover {
-  background-color: #e0e0e0; /* Sfondo grigio chiaro al hover in modalità chiara */
+  background-color: #e0e0e0;
+  /* Sfondo grigio chiaro al hover in modalità chiara */
 }
 
 body.dark-mode #themeBtn:hover {
-  background-color: #444; /* Sfondo grigio più scuro al hover in modalità scura */
+  background-color: #444;
+  /* Sfondo grigio più scuro al hover in modalità scura */
 }
 
 #btn-util {
@@ -259,11 +290,24 @@ body.dark-mode #themeBtn:hover {
 }
 
 .btn-link {
-    color: #c2ced9;
+  color: #c2ced9;
 }
 
 #chart-ordini {
-        width: 100% !important;
-        max-width: 600px;
-        height: 500px !important;
-      }
+  width: 100% !important;
+  max-width: 600px;
+  height: 500px !important;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 1rem;
+  /* Spazio per i pulsanti in basso */
+}
+
+/* Pulsanti in basso */
+.sidebar .mt-auto {
+  margin-top: auto;
+}

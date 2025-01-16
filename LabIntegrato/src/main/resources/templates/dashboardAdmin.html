@@ -1,10 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/images/ico/gauge-high-solid.svg">
+  <title>Dashboard Admin</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <!-- AdminLTE CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+  <!-- CSS personalizzato -->
+  <link rel="stylesheet" href="/dashboardCliente/styles/styles.css">
+  <!-- SweetAler2 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css">
 </head>
-<body>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary">
+      <!-- Brand Logo -->
+      <a href="/public/cliente/dashboard" class="brand-link">
+        <img src="\images\ico\gauge-high-solid-w.svg" class="brand-image">
+        <span class="brand-text font-weight-bold">Dashboard Admin</span>
+      </a>
+      <!-- Sidebar -->
+      <div class="sidebar d-flex flex-column justify-content-between" >
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" >
+            <!-- Bottone Nuovo Ordine -->
+            <li class="nav-item" >
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')" style="color: white;">
+                <i class="nav-icon fas fa-plus-circle" style="color: white;"></i>
+                <p  style="color: white;">Nuovo Ordine</p>
+              </button>
+            </li>
+            <!-- Bottone Storico Ordini -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/storico/ordine')" style="color: white;">
+                <i class="nav-icon fas fa-history"></i>
+                <p>Storico Ordini</p>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <!-- Pulsanti in basso -->
+        <div class="mt-auto mb-3">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+            <!-- Bottone Tema -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" id="themeBtn" onclick="toggleTheme()" >
+                <i class="fas fa-moon" id="themeIcon" ></i>
+                <p>Tema</p>
+              </button>
+            </li>
+            <!-- Bottone Logout -->
+            <li class="nav-item">
+              <button class="btn btn-link nav-link" id="logoutBtn" style="color: white;">
+                <i class="nav-icon fas fa-sign-out-alt"></i>
+                <p>Logout</p>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Main content -->
+      <section class="content pt-3">
+        <div class="container-fluid">
+          <h3>I tuoi dati</h3>
+			<iframe
+			    src="https://its.metabaseapp.com/public/dashboard/2a576b22-47b0-4842-8985-98f1ce865e7f"
+			    frameborder="0"
+			    width="100%"
+			    height="900"
+			    allowtransparency
+			></iframe>
+          
+        </div>
+      </section>
+    </div>
+    
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2024 <a href="#">La Tua Azienda</a>.</strong>
+      Tutti i diritti riservati.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Versione</b> 3.1.0
+        <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+          <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center show" id="bd-theme"
+            type="button" aria-expanded="true" data-bs-toggle="dropdown" aria-label="Toggle theme (light)">
+            <svg class="bi my-1 theme-icon-active" width="1em" height="1em">
+              <use href="#sun-fill"></use>
+            </svg>
+            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow show" aria-labelledby="bd-theme-text"
+            style="position: absolute; inset: auto 0px 0px auto; margin: 0px; transform: translate(0px, -44px);"
+            data-popper-placement="top-end">
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light"
+                aria-pressed="true">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#sun-fill"></use>
+                </svg>
+                Light
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark"
+                aria-pressed="false">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#moon-stars-fill"></use>
+                </svg>
+                Dark
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto"
+                aria-pressed="false">
+                <svg class="bi me-2 opacity-50" width="1em" height="1em">
+                  <use href="#circle-half"></use>
+                </svg>
+                Auto
+                <svg class="bi ms-auto d-none" width="1em" height="1em">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div id="message" class="message"></div>
+    </footer>
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- Scripts -->
+  <script src="/dashboardAdmin/script/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
 
 </body>
+
 </html>

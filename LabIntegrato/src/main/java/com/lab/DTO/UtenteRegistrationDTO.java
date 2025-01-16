@@ -1,6 +1,8 @@
 package com.lab.DTO;
 
 public class UtenteRegistrationDTO {
+
+	
     private String username;
     private String password;
     private String accountType;

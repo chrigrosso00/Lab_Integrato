@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,8 @@ import com.lab.services.UserService;
 import com.lab.utils.JwtUtil;
 
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api")
@@ -62,6 +65,26 @@ public class AuthController {
     @PostMapping("/utente/registrazione")
     public ResponseEntity<Map<String, String>> registraUtente(@RequestBody @Valid UtenteRegistrationDTO utenteDto) {
         try {
+            if(utenteDto.getUsername() == null || utenteDto.getUsername().isEmpty() || utenteDto.getUsername().equals("")) {
+                for(int i=0;i<utenteDto.getUsername().length();i++) {
+                    if(utenteDto.getUsername().charAt(i) == ' ') {
+                        throw new IllegalArgumentException("Username non può contenere spazi");
+                    }
+                }
+                throw new IllegalArgumentException("Username non può essere vuoto o non può contenere spazi");
+            }
+            else if (userRepository.findByUsername(utenteDto.getUsername()).isPresent()){
+                throw new IllegalArgumentException("Username già in uso");
+            }
+
+            if(utenteDto.getPassword() == null || utenteDto.getPassword().isEmpty() || utenteDto.getPassword().equals("")) {
+                for(int i=0;i<utenteDto.getPassword().length();i++) {
+                    if(utenteDto.getPassword().charAt(i) == ' ') {
+                        throw new IllegalArgumentException("Password non può contenere spazi");
+                    }
+                throw new IllegalArgumentException("Password non può essere vuota");
+            }}
+
             if ("cliente".equals(utenteDto.getAccountType())) {
                 // Verifica e salva i dati aggiuntivi per il cliente
                 clienteService.registraCliente(utenteDto);
@@ -141,6 +164,26 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Credenziali non valide"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Errore interno al server"));
+        }
+    }
+    
+    @GetMapping("/redirect")
+    public ResponseEntity<String> redirectUser(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = authorizationHeader.replace("Bearer ", "");
+        List<String> roles = jwtUtil.extractRoles(token);
+
+        // Controlla se i ruoli sono validi
+        if (roles == null || roles.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Accesso negato");
+        }
+
+        // Determina il percorso in base ai ruoli
+        if (roles.contains("ROLE_ADMIN")) {
+            return ResponseEntity.ok("/public/admin/dashboard");
+        } else if (roles.contains("ROLE_CLIENTE")) {
+            return ResponseEntity.ok("/public/cliente/dashboard");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Ruolo non supportato");
         }
     }
 

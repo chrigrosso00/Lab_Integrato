@@ -64,7 +64,28 @@ public class MetabaseController {
         // Crea l'URL per l'iframe da utilizzare nel frontend
         // https://its.metabaseapp.com/dashboard/11-dashboard-cliente?user_id=
         // https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa
-        String iframeUrl = "https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa?user_id=" + userId + "#background=false&bordered=false&titled=true";
+        String iframeUrl = "https://its.metabaseapp.com/public/dashboard/7021df49-6e88-42f4-b017-33f0a96082aa?user_id=" + userId + "#background=false&bordered=false&titled=false";
+        
+        System.out.println(iframeUrl);
+        
+        return ResponseEntity.ok().body(iframeUrl);
+    }
+
+    @GetMapping("/embed-url/admin")
+    public ResponseEntity<String> getEmbedUrlAdmin(@RequestHeader("Authorization") String authorizationHeader) {
+        Long dashboardId = 11L;  // ID della dashboard Metabase
+        String tokenUser = authorizationHeader.replace("Bearer ", "");
+        
+        // Estrai l'id del cliente dal token JWT
+        Long userId = jwtUtil.extractId(tokenUser);     // L'userId associato alla sessione dell'utente
+        
+        // Parametri di esempio per l'embed
+        Map<String, Object> params = Map.of();
+        
+        // Genera il token JWT usando il servizio separato
+        String token = jwtTokenService.generateEmbedToken(dashboardId, userId, params);
+
+        String iframeUrl = "https://its.metabaseapp.com/public/dashboard/2a576b22-47b0-4842-8985-98f1ce865e7f";
         
         System.out.println(iframeUrl);
         
