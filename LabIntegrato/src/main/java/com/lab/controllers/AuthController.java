@@ -62,6 +62,26 @@ public class AuthController {
     @PostMapping("/utente/registrazione")
     public ResponseEntity<Map<String, String>> registraUtente(@RequestBody @Valid UtenteRegistrationDTO utenteDto) {
         try {
+            if(utenteDto.getUsername() == null || utenteDto.getUsername().isEmpty() || utenteDto.getUsername().equals("")) {
+                for(int i=0;i<utenteDto.getUsername().length();i++) {
+                    if(utenteDto.getUsername().charAt(i) == ' ') {
+                        throw new IllegalArgumentException("Username non può contenere spazi");
+                    }
+                }
+                throw new IllegalArgumentException("Username non può essere vuoto o non può contenere spazi");
+            }
+            else if (userRepository.findByUsername(utenteDto.getUsername()).isPresent()){
+                throw new IllegalArgumentException("Username già in uso");
+            }
+
+            if(utenteDto.getPassword() == null || utenteDto.getPassword().isEmpty() || utenteDto.getPassword().equals("")) {
+                for(int i=0;i<utenteDto.getPassword().length();i++) {
+                    if(utenteDto.getPassword().charAt(i) == ' ') {
+                        throw new IllegalArgumentException("Password non può contenere spazi");
+                    }
+                throw new IllegalArgumentException("Password non può essere vuota");
+            }}
+
             if ("cliente".equals(utenteDto.getAccountType())) {
                 // Verifica e salva i dati aggiuntivi per il cliente
                 clienteService.registraCliente(utenteDto);
