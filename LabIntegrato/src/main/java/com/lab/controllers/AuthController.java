@@ -12,6 +12,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -33,7 +34,6 @@ import com.lab.services.UserService;
 import com.lab.utils.JwtUtil;
 
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
@@ -64,6 +64,7 @@ public class AuthController {
     
     @PostMapping("/utente/registrazione")
     public ResponseEntity<Map<String, String>> registraUtente(@RequestBody @Valid UtenteRegistrationDTO utenteDto) {
+        Map<String, String> errorResponse = new HashMap<>();
         try {
             if(utenteDto.getUsername() == null || utenteDto.getUsername().isEmpty() || utenteDto.getUsername().equals("")) {
                 for(int i=0;i<utenteDto.getUsername().length();i++) {
@@ -96,7 +97,7 @@ public class AuthController {
             successResponse.put("message", "Registrazione avvenuta con successo!");
             return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
         } catch (Exception e) {
-              Map<String, String> errorResponse = new HashMap<>();
+            //   Map<String, String> errorResponse = new HashMap<>();
               errorResponse.put("message", "Errore durante la registrazione: " + e.getMessage());
               return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
          }
