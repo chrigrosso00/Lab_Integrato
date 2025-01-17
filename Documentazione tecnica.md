@@ -94,7 +94,7 @@ Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, a
 - **Automazione**: Riduce l'intervento manuale nei flussi di dati.
 - **Monitoraggio in tempo reale**: Identifica anomalie e inefficienze rapidamente.
 - **Analisi approfondita**: Permette di comprendere trend e ottimizzare le decisioni aziendali.
-- 
+  
 ---
 
 # 💾 Connessioni ai Database
