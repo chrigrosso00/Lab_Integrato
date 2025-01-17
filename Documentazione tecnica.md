@@ -213,9 +213,8 @@ La buona prassi consiste nel consultare periodicamente questi log e archiviarli 
 
 - **Connessione**: Metabase si collega direttamente al database MySQL di produzione.  
 - **Dashboard**:  
-  - KPI di produzione: pezzi prodotti/orario, scarti, tempi di fermo.  
-  - Stato ordini: ordini in attesa, in lavorazione, completati, spediti.  
-  - Analisi performance macchinari e operatori.  
+  - Dashboard Admin.
+  - Dashboard Cliente.
 
 In questo modo, l’applicazione Flask si concentra sulla gestione dei dati, mentre Metabase offre una **Business Intelligence** semplice ed efficace.
 
