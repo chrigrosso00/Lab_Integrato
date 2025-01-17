@@ -1,19 +1,180 @@
-# Documentazione Tecnica
+<div align="center">
+  <img src="https://github.com/chrigrosso00/Lab_Integrato/blob/main/Lab%20Integrato.png" alt="Banner del Progetto" width="1000px">
+</div>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-11-orange" alt="Java 11">
+  <img src="https://img.shields.io/badge/Python-3.8-yellow.svg" alt="Python 3.8">
+  <img src="https://img.shields.io/badge/MySQL-8.0-blue.svg" alt="MySQL 8.0">
+  <img src="https://img.shields.io/badge/PostgreSQL-13-blue.svg" alt="PostgreSQL 13">
+</p>
+
+<div align="center">
+  <h1>Documentazione Tecnica<h1>
+  <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi, ML e BI.</i>
+</div>
+
+<br/>
 
 ---
 
-## 📜 Indice
+# Indice
+1. [🔰 Introduzione](#-introduzione)  
+2. [🔨 Struttura del Sistema](#-struttura-del-sistema)  
+3. [⚙️ Flusso Complessivo](#-flusso-complessivo)  
+4. [📈 Vantaggi del Sistema](#-vantaggi-del-sistema)  
+5. [💾 Connessioni ai Database](#-connessioni-ai-database)  
+6. [🐍 ETL Python in Cloud](#-etl-python-in-cloud)  
+7. [📖 Documentazione Tecnica](#-documentazione-tecnica)  
+   - [📖 Descrizione](#descrizione)  
+   - [✨ Funzionalità principali](#funzionalità-principali)  
+   - [🔄 Flusso di lavoro (dettaglio ETL)](#flusso-di-lavoro-dettaglio-etl)  
+   - [🌐 Endpoint REST](#endpoint-rest)  
+   - [🔍 Monitoraggio processi ETL](#monitoraggio-processi-etl)  
+   - [📊 Logging](#logging)  
+   - [💡 Tecnologie utilizzate](#tecnologie-utilizzate)  
+   - [⚙️ Architettura generale (ETL)](#architettura-generale-etl)  
+   - [📊 Metabase per l’analisi](#metabase-per-lanalisi)  
+   - [🌱 Web App Java Spring Boot](#web-app-java-spring-boot)
 
-1. [📖 Descrizione](#-descrizione)  
-2. [✨ Funzionalità principali](#-funzionalità-principali)  
-3. [🔄 Flusso di lavoro](#-flusso-di-lavoro)  
-4. [🌐 Endpoint REST](#-endpoint-rest)  
-5. [🔍 Monitoraggio processi ETL](#-monitoraggio-processi-etl)  
-6. [📊 Logging](#-logging)  
-7. [💡 Tecnologie utilizzate](#-tecnologie-utilizzate)  
-8. [⚙️ Architettura generale](#%EF%B8%8F-architettura-generale)  
-9. [📊 Metabase per l’analisi](#-metabase-per-lanalisi)  
-10. [🌱 Web App Java Spring Boot](#-web-app-java-spring-boot)
+---
+
+## 🔰 Introduzione
+Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.
+
+### Obiettivi principali
+- **Monitorare** i dati in tempo reale.
+- **Analizzare** le prestazioni e identificare anomalie o inefficienze.
+- **Generare previsioni** basate su dati storici, migliorando i processi decisionali aziendali.
+
+<div align="center">
+  <img src="https://github.com/chrigrosso00/Lab_Integrato/blob/main/workflow.drawio.png" alt="WorkFlow">
+</div>
+
+---
+
+## 🔨 Struttura del Sistema
+- **Macchine (FORGIA e CNC):** Generano dati di produzione (es. temperature, anomalie, pezzi prodotti).
+- **Database:** Punto centrale di archiviazione dei dati.  
+  - [MySQL (Produzione)](#database-mysql-produzione)  
+  - [PostgreSQL (Staging)](#database-postgresql-staging)
+- **Power Automate:** Automatizza i flussi di dati verso l’ETL.
+- **ETL (Python/Flask):** Estrae, trasforma e carica i dati nei database di staging e produzione.
+- **Power Apps:** Interfaccia in tempo reale per il monitoraggio delle macchine.
+- **Metabase:** Business Intelligence per l’analisi dei dati e la creazione di report.
+- **Python ML:** Addestramento di modelli di machine learning predittivi.
+- **Java Web App (Spring Boot):** Fornisce un’interfaccia agli utenti (Admin/Clienti) per consultare i dati e gestire gli ordini.
+
+---
+
+## ⚙️ Flusso Complessivo
+
+1. **Macchine (FORGIA e CNC)**:
+   - Generano dati di produzione: temperature, pezzi prodotti, anomalie, ecc.
+
+2. **Power Automate**:
+   - Automatizza la raccolta e l’invio dei dati al modulo ETL (Flask).
+
+3. **ETL (Extract, Transform, Load)**:
+   - Riceve i dati grezzi, li trasforma e li carica nei database:
+     - **PostgreSQL** (Staging)
+     - **MySQL** (Produzione)
+
+4. **Power Apps**:
+   - Visualizza in tempo reale le informazioni raccolte (monitoraggio macchinari).
+
+5. **Metabase**:
+   - Fornisce analisi storiche e dashboard interattive (KPI di produzione, ordini, performance).
+
+6. **Python ML**:
+   - Elabora i dati storici (stored su MySQL) per addestrare modelli di Machine Learning (es. manutenzione predittiva).
+
+7. **Java Web App**:
+   - Consente la gestione delle operazioni, la consultazione dei report e l’interazione con i dati (sia lato Admin che lato Cliente).
+
+---
+
+## 📈 Vantaggi del Sistema
+- **Automazione**: Riduce l'intervento manuale nei flussi di dati.
+- **Monitoraggio in tempo reale**: Identifica anomalie e inefficienze rapidamente.
+- **Analisi approfondita**: Permette di comprendere trend e ottimizzare le decisioni aziendali.
+- **Previsioni affidabili**: Modelli di Machine Learning aiutano a prevedere e prevenire problematiche operative.
+
+---
+
+# 💾 Connessioni ai Database
+
+<div align="center">
+  <img src="https://aiven.io/assets/img/aiven-logo.png" alt="Aiven logo" width="600px" height="150px">
+</div>
+
+> I database (MySQL e PostgreSQL) utilizzati in questo progetto sono interamente ospitati in cloud su **Aiven**.  
+> La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito di Aiven non si possono attivare più servizi dello stesso DBMS.
+
+---
+
+## **Database MySQL (Produzione)**
+<div align="center">
+  <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
+</div>
+<details>
+  <summary>Mostra diagramma DML (MySQL)</summary>
+  <div align="center">
+    <img src="https://github.com/chrigrosso00/Lab_Integrato/blob/main/DML.drawio.png" alt="DML MySQL">
+  </div>
+</details>
+
+---
+
+## **Database PostgreSQL (Staging)**
+<div align="center">
+  <img src="https://www.lightcrest.com/wp-content/uploads/2019/04/postgresql-logo.png" alt="Logo postgreSQL">
+</div>
+<details>
+  <summary>Mostra diagramma DML (PostgreSQL)</summary>
+  <div align="center">
+    <img src="https://github.com/chrigrosso00/Lab_Integrato/blob/main/Raw_DML.drawio.png" alt="Raw DML PostgreSQL">
+  </div>
+</details>
+
+---
+
+<div align="center">
+  <img src="https://res.cloudinary.com/secretsaas/image/upload/v1655733591/logo/Scalingo.png" alt="Logo Scalingo">
+</div>
+
+# 🐍 **ETL Python in Cloud**
+
+L'applicazione è accessibile al seguente indirizzo:  
+**[ETL Project](https://pythonetl.osc-fr1.scalingo.io/)**  
+
+### **API**
+
+1. **Run Script**  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/run`  
+   Avvia lo script Python per modellare tutti i dati dal database PostgreSQL e li salva su MySQL.
+
+2. **Status**  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/status`  
+   Restituisce i dati processati con successo.
+
+3. **Logs**  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/logs`  
+     Mostra i log del progetto per monitorare le attività e diagnosticare eventuali problemi.  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/log-cron`  
+     Mostra i log delle attività eseguite periodicamente (cron).  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/clear-logs`  
+     Pulisce i file di log.
+
+4. **Dati**  
+   - `GET https://pythonetl.osc-fr1.scalingo.io/data`  
+     Mostra le tabelle `Forgiatura` e `dati_anomali` del database MySQL e i dati registrati.
+
+---
+
+# 📖 Documentazione Tecnica
+
+In questa sezione sono incluse le informazioni specifiche sull’applicazione **ETL (Extract, Transform, Load)** in **Python/Flask**.
 
 ---
 
@@ -70,9 +231,7 @@ Si occupa di:
 
 ---
 
-## 🔄 Flusso di lavoro
-
-Il processo ETL segue una sequenza di passaggi ben definiti, integrati con il flusso di **Power Automate** (se utilizzato) e le API REST esposte dall’applicazione.
+## 🔄 Flusso di lavoro (dettaglio ETL)
 
 1. **Chiamata iniziale agli ordini**  
    - **Power Automate** (o altro client) invoca `GET /ordine` per ottenere i pezzi da produrre.  
@@ -90,33 +249,33 @@ Il processo ETL segue una sequenza di passaggi ben definiti, integrati con il fl
 
 4. **Aggiornamento ordini e magazzino**  
    - L’endpoint `POST /aggiorna/ordine` aggiorna la quantità rimanente dei pezzi e setta lo stato degli ordini a `COMPLETATO` quando tutti i pezzi richiesti sono stati prodotti.  
-   - In mancanza di ordini, la logica di business può prevedere la produzione per rifornire il magazzino.
+   - In mancanza di ordini, la logica di business può prevedere la produzione per rifornire il magazzino (logica “make-to-stock”).
 
 ---
 
 ## 🌐 Endpoint REST
 
-### **Avvio / Processi ETL**
+### Avvio / Processi ETL
 | **Endpoint**               | **Descrizione**                                                       |
 |----------------------------|-----------------------------------------------------------------------|
 | **`POST /run-etl`**        | Avvia il processo ETL in un thread separato (o in foreground).        |
 | **`POST /insert-postgres`**| Inserisce dati in `raw_operazione` (staging) di PostgreSQL.           |
 | **`POST /process-transfer`**| Trasferisce e valida i dati da PostgreSQL a MySQL.                   |
 
-### **Monitoraggio**
+### Monitoraggio
 | **Endpoint**               | **Descrizione**                                                       |
 |----------------------------|-----------------------------------------------------------------------|
 | **`GET /status`**          | Restituisce lo stato corrente del processo ETL.                       |
 | **`GET /actions/errors`**  | Restituisce i record con `FAILURE` da `etl_tracked_actions`.           |
 | **`GET /actions`**         | Restituisce tutti i record di `etl_tracked_actions`, ordinati per timestamp. |
 
-### **Gestione Ordini**
+### Gestione Ordini
 | **Endpoint**               | **Descrizione**                                                       |
 |----------------------------|-----------------------------------------------------------------------|
 | **`GET /ordine`**          | Restituisce un set di pezzi da processare o crea record fittizi.      |
 | **`POST /aggiorna/ordine`**| Aggiorna lo stato degli ordini, decrementa quantità e imposta `COMPLETATO`. |
 
-### **Log e Manutenzione**
+### Log e Manutenzione
 | **Endpoint**               | **Descrizione**                                                       |
 |----------------------------|-----------------------------------------------------------------------|
 | **`GET /logs`**            | Mostra i log di `etl.log`.                                            |
@@ -136,13 +295,13 @@ Le informazioni principali includono:
 - `details`: JSONB con info aggiuntive (numero di record, timestamp, ecc.).  
 - `error_message`: Messaggi di errore o eccezioni.
 
-#### **Endpoint di monitoraggio dedicati**
+### Endpoint di monitoraggio dedicati
 - **`GET /actions`**  
   Restituisce tutti i record, ordinati in ordine decrescente di timestamp.  
 - **`GET /actions/errors`**  
   Restituisce i soli record con `status = FAILURE`.  
 
-**Benefici**:  
+**Benefici**  
 - Rapido debug per individuare errori o processi falliti.  
 - Storico completo dei processi ETL e dei volumi di dati elaborati.
 
@@ -157,7 +316,7 @@ Tutti i log sono archiviati nella directory `logs/`. Di seguito i principali fil
 - **`postgresql.log`**: Eventuali errori o avvisi relativi a PostgreSQL.  
 - **`mysql.log`**: Eventuali errori o avvisi relativi a MySQL.
 
-La buona prassi consiste nel consultare periodicamente questi log e archiviarli o ruotarli (log rotation) per evitare file di dimensioni eccessive.
+> **Best Practice**: consultare periodicamente questi log e archiviarli o ruotarli (log rotation) per evitare file di dimensioni eccessive.
 
 ---
 
@@ -173,7 +332,7 @@ La buona prassi consiste nel consultare periodicamente questi log e archiviarli 
   - Database di staging per la prima memorizzazione e validazione dei dati.  
 - **MySQL** 🐬  
   - Database di produzione per il consolidamento dei dati finali.  
-- **Microsoft Power Automate**
+- **Microsoft Power Automate**  
   - Orchestrazione di chiamate HTTP, invio e ricezione dati di produzione.  
 - **Metabase**  
   - Analisi e creazione di dashboard per KPI di produzione, ordini, performance.  
@@ -182,7 +341,7 @@ La buona prassi consiste nel consultare periodicamente questi log e archiviarli 
 
 ---
 
-## ⚙️ Architettura generale
+## ⚙️ Architettura generale (ETL)
 
 1. **Applicazione Flask (ETL)**  
    - Espone endpoint REST per ricevere dati di produzione e ordini.  
@@ -190,8 +349,8 @@ La buona prassi consiste nel consultare periodicamente questi log e archiviarli 
    - Salva i dati inizialmente su PostgreSQL (staging).  
 
 2. **Processo ETL Orario (o programmato)**  
-   - Esamina i record in `raw_operazione`.  
-   - Valida i dati (Pydantic).  
+   - Estrae i record da `raw_operazione`.  
+   - Valida i dati con Pydantic.  
    - Carica i dati puliti su MySQL (database di produzione).  
 
 3. **Power Automate** (se presente)  
@@ -213,8 +372,8 @@ La buona prassi consiste nel consultare periodicamente questi log e archiviarli 
 
 - **Connessione**: Metabase si collega direttamente al database MySQL di produzione.  
 - **Dashboard**:  
-  - Dashboard Admin.
-  - Dashboard Cliente.
+  - **Dashboard Admin**: KPI di produzione, performance macchinari, scarti, efficienze.  
+  - **Dashboard Cliente**: Stato ordini, pezzi prodotti, consegne.  
 
 In questo modo, l’applicazione Flask si concentra sulla gestione dei dati, mentre Metabase offre una **Business Intelligence** semplice ed efficace.
 
