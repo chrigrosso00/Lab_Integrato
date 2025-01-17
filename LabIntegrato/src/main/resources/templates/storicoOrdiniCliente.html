@@ -4,7 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard Personale</title>
+  <link rel="icon" type="image/svg+xml" href="/images/ico/clock-rotate-left-solid.svg">
+
+
+  <title>Storico ordini</title>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
@@ -24,10 +27,9 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="#" class="brand-link">
-        <img src="https://via.placeholder.com/160" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-          style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <a href="/public/cliente/storico/ordine" class="brand-link">
+        <img src="\images\ico\clock-rotate-left-solid-w.svg" class="brand-image">
+        <span class="brand-text font-weight-bold">Storico ordini</span>
       </a>
 
       <!-- Sidebar -->
@@ -38,7 +40,7 @@
 
             <!-- Bottone Nuovo Ordine -->
             <li class="nav-item">
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')" style="color: white;">
                 <i class="nav-icon fas fa-plus-circle"></i>
                 <p>Nuovo Ordine</p>
               </button>
@@ -46,7 +48,7 @@
 
             <!-- Bottone Dashboard -->
             <li class="nav-item">
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/dashboard')">
+              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/dashboard')" style="color: white;">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>Dashboard</p>
               </button>
@@ -78,13 +80,13 @@
       <!-- /.sidebar -->
     </aside>
     <div class="content-wrapper">
+      <h3>I tuoi ordini</h3>
       <div class="tabs-container">
         <div class="tabs">
           <input type="radio" id="radio-1" name="tabs" value="recent" checked>
           <label class="tab" for="radio-1">Più recenti</label>
           <input type="radio" id="radio-2" name="tabs" value="oldest">
           <label class="tab" for="radio-2">Più vecchi</label>
-          <span class="glider"></span>
         </div>
       </div>
       <div id="orders-container"></div>

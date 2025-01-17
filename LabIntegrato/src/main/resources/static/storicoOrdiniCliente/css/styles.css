@@ -7,7 +7,7 @@ body {
 /* Aggiusta la sezione principale */
 .content-wrapper {
     margin-left: 250px; /* Larghezza della sidebar */
-    margin-top: 70px;   /* Altezza dell'header */
+    /* margin-top: 70px;  */
     padding: 1.5rem;    /* Spaziatura interna per il contenuto */
     box-sizing: border-box;
     background-color: #f8f9fa; /* Sfondo chiaro */
@@ -17,14 +17,12 @@ h1 {
     margin-bottom: 1rem; /* Spaziatura sotto il titolo */
     color: #333; /* Colore visibile */
     font-size: 2rem;
-    font-weight: 600;
 }
 
 /* Riduzione margine e adattamento a schermi piccoli */
 @media (max-width: 768px) {
     .content-wrapper {
         margin-left: 0; /* Rimuove la sidebar su schermi piccoli */
-        margin-top: 60px; /* Altezza header ridotta */
         padding: 1rem;
     }
 }
@@ -100,8 +98,8 @@ header nav ul li a:hover {
 nav ul {
   display: flex;
   list-style: none;
-  background-color: #555;
   padding: 0;
+  color:white;
   margin: 0;
 }
 
@@ -370,4 +368,22 @@ input#radio-1:checked ~ .glider {
 
 input#radio-2:checked ~ .glider {
     left: 50%;
+}
+
+.orders-container{
+  display: flex;
+
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 1rem;
+  /* Spazio per i pulsanti in basso */
+}
+
+/* Pulsanti in basso */
+.sidebar .mt-auto {
+  margin-top: auto;
 }

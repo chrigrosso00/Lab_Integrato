@@ -32,12 +32,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             	.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/", "/api/login", "/api/register", "/api/**", "/registrazione", "/login", "/public/**", "/api/metabase/**").permitAll()
-                .requestMatchers("/static/**", "/js/**", "/css/**", "/images/**", "/dashboardCliente/**", "/clienteOrdine/**", "/storicoOrdiniCliente/**", "/login/**", "/register/**").permitAll() 
+                .requestMatchers("/static/**", "/js/**", "/css/**", "/images/**", "/dashboardAdmin/**", "/dashboardCliente/**", "/clienteOrdine/**", "/storicoOrdiniCliente/**", "/login/**", "/register/**").permitAll() 
                 .requestMatchers("/metabase/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
                 .requestMatchers("/cliente/**").hasRole("CLIENTE")
-                    .requestMatchers("/supervisor/**").hasRole("SUPERVISOR")
+                .requestMatchers("/supervisor/**").hasRole("SUPERVISOR")
 
                 .anyRequest().authenticated()
             )
