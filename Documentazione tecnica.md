@@ -11,7 +11,7 @@
 
 <div align="center">
   <h1>Documentazione Tecnica<h1>
-  <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi, ML e BI.</i>
+  <i>Un progetto per integrare macchinari industriali (FORGIA e CNC) con flussi di dati centralizzati per analisi e BI.</i>
 </div>
 
 <br/>
@@ -62,7 +62,6 @@ Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, a
 - **ETL (Python/Flask):** Estrae, trasforma e carica i dati nei database di staging e produzione.
 - **Power Apps:** Interfaccia in tempo reale per il monitoraggio delle macchine.
 - **Metabase:** Business Intelligence per l’analisi dei dati e la creazione di report.
-- **Python ML:** Addestramento di modelli di machine learning predittivi.
 - **Java Web App (Spring Boot):** Fornisce un’interfaccia agli utenti (Admin/Clienti) per consultare i dati e gestire gli ordini.
 
 ---
@@ -86,10 +85,7 @@ Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, a
 5. **Metabase**:
    - Fornisce analisi storiche e dashboard interattive (KPI di produzione, ordini, performance).
 
-6. **Python ML**:
-   - Elabora i dati storici (stored su MySQL) per addestrare modelli di Machine Learning (es. manutenzione predittiva).
-
-7. **Java Web App**:
+6. **Java Web App**:
    - Consente la gestione delle operazioni, la consultazione dei report e l’interazione con i dati (sia lato Admin che lato Cliente).
 
 ---
@@ -98,8 +94,7 @@ Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, a
 - **Automazione**: Riduce l'intervento manuale nei flussi di dati.
 - **Monitoraggio in tempo reale**: Identifica anomalie e inefficienze rapidamente.
 - **Analisi approfondita**: Permette di comprendere trend e ottimizzare le decisioni aziendali.
-- **Previsioni affidabili**: Modelli di Machine Learning aiutano a prevedere e prevenire problematiche operative.
-
+- 
 ---
 
 # 💾 Connessioni ai Database
