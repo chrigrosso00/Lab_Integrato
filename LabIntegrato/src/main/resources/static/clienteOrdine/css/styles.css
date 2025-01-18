@@ -224,15 +224,18 @@ body {
     max-width: 100%;
     height: 50px;
     background-color: rgba(52, 152, 219, 0);
-    padding: 2rem;
+    padding: 0.5rem;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
     overflow-y: auto;
     z-index: 1000;
 }
 
+
 .cart-section.open {
     transform: translateX(0);
+    height: 620px;
+
 }
 
 .master-container {
@@ -243,6 +246,10 @@ body {
 /* Stile per il carrello e checkout */
 .cart-section .card.cart {
     margin-bottom: 0.5rem;
+}
+
+.card[class*="cart"], .card[class*="checkout"]{
+    padding: 2rem;
 }
 
 .card.cart {

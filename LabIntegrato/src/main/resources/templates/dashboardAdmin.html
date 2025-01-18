@@ -23,7 +23,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary">
       <!-- Brand Logo -->
-      <a href="/public/cliente/dashboard" class="brand-link">
+      <a href="/public/admin/dashboard" class="brand-link">
         <img src="\images\ico\gauge-high-solid-w.svg" class="brand-image">
         <span class="brand-text font-weight-bold">Dashboard Admin</span>
       </a>
@@ -31,25 +31,6 @@
       <div class="sidebar d-flex flex-column justify-content-between" >
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" >
-            <!-- Bottone Nuovo Ordine -->
-            <li class="nav-item" >
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/crea/ordine')" style="color: white;">
-                <i class="nav-icon fas fa-plus-circle" style="color: white;"></i>
-                <p  style="color: white;">Nuovo Ordine</p>
-              </button>
-            </li>
-            <!-- Bottone Storico Ordini -->
-            <li class="nav-item">
-              <button class="btn btn-link nav-link" onclick="redirectWithToken('/public/cliente/storico/ordine')" style="color: white;">
-                <i class="nav-icon fas fa-history"></i>
-                <p>Storico Ordini</p>
-              </button>
-            </li>
-          </ul>
-        </nav>
-        <!-- Pulsanti in basso -->
-        <div class="mt-auto mb-3">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
             <!-- Bottone Tema -->
             <li class="nav-item">
@@ -66,6 +47,9 @@
               </button>
             </li>
           </ul>
+        </nav>
+        <!-- Pulsanti in basso -->
+        <div class="mt-auto mb-3">
         </div>
       </div>
     </aside>
@@ -88,9 +72,8 @@
     </div>
     
     <footer class="main-footer">
-      <strong>Copyright &copy; 2024 <a href="#">La Tua Azienda</a>.</strong>
-      Tutti i diritti riservati.
-      <div class="float-right d-none d-sm-inline-block">
+      <strong><!--Copyright &copy; 2025. Tutti i diritti riservati.--> Progetto sviluppato dal team AnalitiQ</strong>
+      <!-- <div class="float-right d-none d-sm-inline-block">
         <b>Versione</b> 3.1.0
         <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
           <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center show" id="bd-theme"
@@ -141,7 +124,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
       <div id="message" class="message"></div>
     </footer>
   </div>

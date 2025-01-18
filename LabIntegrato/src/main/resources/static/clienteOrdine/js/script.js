@@ -385,10 +385,10 @@ document.getElementById('logoutBtn').addEventListener('click', function(event) {
             </div>
             <div class="content">
                 <h2 class="title">${prodotto.nome}</h2>
-                <p class="description">${prodotto.descrizione}</p>
+                <!--<p class="description">${prodotto.descrizione}</p>-->
                 <div class="unit-price">Prezzo unitario: €${prodotto.prezzo.toFixed(2)}</div>
                 <div class="disponibilita">Disponibilità pezzi: ${prodotto.disponibilita}</div>
-
+                <br/>
                 <div class="quantity-container">
                     <span class="quantity-label">Quantità:</span>
                     <select class="quantity-select" onchange="toggleCustomQuantity(this); updatePrice(${prodotto.id}, ${prodotto.prezzo});">

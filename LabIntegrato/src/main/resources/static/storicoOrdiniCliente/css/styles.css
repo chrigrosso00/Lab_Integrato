@@ -152,6 +152,18 @@ body.dark-mode .card {
   color: #f8f9fa;
 }
 
+body.dark-mode .tabs-container, body.dark-mode .tabs, body.dark-mode .tab {
+  background-color: #454d55;
+  color: #f8f9fa;
+}
+body.dark-mode .glider {
+  background-color: #f8f9fa;
+}
+body.dark-mode input[name="tabs"]:checked + .tab{
+  color: #f8f9fa;
+  border-bottom: 2px solid #f8f9fa; 
+}
+
 body.dark-mode .navbar, body.dark-mode .main-header {
   background-color: #212529;
 }
