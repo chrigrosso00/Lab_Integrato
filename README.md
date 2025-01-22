@@ -26,7 +26,8 @@
 6. [🐍 ETL Python in Cloud](#-etl-python-in-cloud)
 
 ## 🔰 Introduzione
-(Per consultare la documentazione tecnica, passare al branch **Documentazione** e aprire il file **Documentazione Tecnica**)
+Per consultare la documentazione tecnica, passare al branch **Documentazione** e aprire il file **Documentazione Tecnica**.
+-
 Il sistema rappresentato integra più tecnologie per raccogliere, trasformare, analizzare e visualizzare i dati provenienti da macchinari industriali (**FORGIA** e **CNC**) in un ambiente centralizzato.  
 L'obiettivo principale è:
 - **Monitorare** i dati in tempo reale.
