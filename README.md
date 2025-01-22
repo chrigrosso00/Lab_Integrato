@@ -123,12 +123,6 @@ La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito d
   <img src="https://tse1.mm.bing.net/th?id=OIP.zciMTYy4oAMdBnHXf2OZ_wHaDF&pid=Api" alt="Logo MySQL">
 </div>
 
-## **Stringa connessione database MySQL (Produzione)**
-
-| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
-| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
-| **Produzione** | `defaultdb`  | `lab-integrato-nicola03-3bd5.f.aivencloud.com` | `16921` | `avnadmin` | `AVNS_frpyP32fGueJJfnhssZ` |
-
 ## **Struttura Database**
 <details>
   <summary>Mostra diagramma DML</summary>
@@ -142,12 +136,6 @@ La scelta di usare due DB diversi è stata “obbligata”: nel piano gratuito d
 <div align="center">
   <img src="https://www.lightcrest.com/wp-content/uploads/2019/04/postgresql-logo.png" alt="Logo postgreSQL">
 </div>
-
-## **Stringa connessione database PostgreSQL (Staging)**
-
-| Ambiente       | DB Name    | Host                                 | Port  | User     | Password                |
-| -------------- | ---------- | ------------------------------------ | ----- | -------- | ----------------------- |
-| **Staging**    | `defaultdb`  | `stagingdb-nicola03-3bd5.b.aivencloud.com`    | `16921` | `avnadmin` | `AVNS_d8E015YWPMvo61VuSsY` |
 
 ## **Struttura Database**
 <details>
